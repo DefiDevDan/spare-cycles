@@ -1,0 +1,20 @@
+{
+  "name": "spare-cycles",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A mutual-aid task board for developers who use subscription AI coding tools",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mxx1111/spare-cycles.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test ledger/verify.test.mjs",
+    "ledger": "node ledger/verify.mjs",
+    "ledger:write": "node ledger/verify.mjs --write"
+  }
+}

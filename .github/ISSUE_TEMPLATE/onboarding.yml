@@ -1,0 +1,60 @@
+name: "👋 Join / 加入社区"
+description: "Register and receive your starting 50 TP. / 登记并领取初始 50 积分。"
+title: "[Join] "
+labels: ["onboarding"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Welcome. Read [COMPLIANCE.md](https://github.com/mxx1111/spare-cycles/blob/main/COMPLIANCE.md) before filling this in — it is short, and the five red lines in it are the whole basis of the project.
+
+        Eligibility: GitHub account 90+ days old with some public contribution history. This is an anti-sockpuppet measure, not a quality bar.
+
+        ---
+
+        欢迎。填之前先读一遍 [COMPLIANCE.md](https://github.com/mxx1111/spare-cycles/blob/main/COMPLIANCE.md)，很短，里面那五条红线是整个项目的立身之本。
+
+        准入条件：GitHub 账号注册满 90 天且有一些公开贡献记录。这是防小号的，不是质量门槛。
+
+  - type: textarea
+    id: background
+    attributes:
+      label: "What do you work on / 你平时做什么"
+      description: "A couple of sentences. Helps people route tasks to you. / 两句话就行，方便别人把对口的任务丢给你。"
+      placeholder: "Backend, mostly Go and Python. Currently building a health data platform. Comfortable with Postgres and messy legacy code."
+    validations:
+      required: true
+
+  - type: input
+    id: languages
+    attributes:
+      label: "Languages and stacks / 语言与技术栈"
+      placeholder: "TypeScript, Python, Go, Vue, Postgres"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: capacity
+    attributes:
+      label: "Typical spare capacity / 通常的余力情况"
+      description: "Rough and honest. Nobody is held to this. / 大概说说，实话实说。没人拿这个考核你。"
+      options:
+        - "Usually have quota left over / 通常有富余"
+        - "Usually run out / 通常不够用"
+        - "Varies a lot week to week / 每周差别很大"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: agreement
+    attributes:
+      label: "Agreement / 承诺"
+      options:
+        - label: "I have read COMPLIANCE.md and understand the five red lines. / 我读过 COMPLIANCE.md，理解那五条红线。"
+          required: true
+        - label: "I will never share account credentials, or route anyone else's requests through my account. / 我绝不共享账号凭证，也绝不把别人的请求路由过我的账号。"
+          required: true
+        - label: "I understand Task Points cannot be transferred, traded, or cashed out. / 我明白积分不可转让、不可交易、不可提现。"
+          required: true
+        - label: "I will personally review any work I deliver, and I will not run unattended auto-claiming. / 我会亲自审阅我交付的每一份工作，不会搞无人值守的自动接单。"
+          required: true

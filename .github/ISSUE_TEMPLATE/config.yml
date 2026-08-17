@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "📖 Read the compliance red lines first / 先读合规红线"
+    url: https://github.com/mxx1111/spare-cycles/blob/main/COMPLIANCE.md
+    about: "Five hard limits. Violating them gets you removed. / 五条硬底线，违反即移出社区。"
+  - name: "🔒 Which privacy tier do I need? / 我该用哪个隐私级别？"
+    url: https://github.com/mxx1111/spare-cycles/blob/main/PRIVACY-TIERS.md
+    about: "P0 to P3, and how to keep private business code private. / P0 到 P3，以及怎么让私有业务代码留在自己手里。"
+  - name: "⚖️ Points, disputes, sanctions / 积分、争议、处分"
+    url: https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE.md
+    about: "How Task Points work and how disagreements get settled. / 积分怎么算，分歧怎么解决。"
+  - name: "🚨 Report a red-line violation privately / 私下举报红线违规"
+    url: https://github.com/mxx1111/spare-cycles/security/advisories/new
+    about: "If it involves leaked credentials, do not open a public issue. Do not paste the credential. / 涉及凭证泄露时不要开公开 issue，也不要把凭证贴进来。"

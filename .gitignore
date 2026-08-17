@@ -1,0 +1,20 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Never commit anything that looks like a credential. Red line 1.
+*.credentials.json
+auth.json
+.claude/.credentials.json
+*.pem
+*.key
+
+# sparepack working directories — these hold pre-redaction extracts
+.sparepack/
+*.sparepack.tmp/
+
+# Test fixture output
+*.balances.json

@@ -1,0 +1,124 @@
+name: "📋 Post a task / 发布任务"
+description: "Offer Task Points for work you need done. / 用积分悬赏一件需要做的活。"
+title: "[Task] "
+labels: ["bounty", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you post, two things:
+
+        **Never put credentials in this issue.** No API keys, no tokens, no `.credentials.json`, no connection strings with passwords. There is no field for them below and that is deliberate. See [COMPLIANCE.md](https://github.com/mxx1111/spare-cycles/blob/main/COMPLIANCE.md).
+
+        **Never price in tokens or quota.** Task Points are priced by task complexity. "I have 2M tokens left, who wants them" is the one thing that turns this project into something that gets everyone banned.
+
+        ---
+
+        发布之前，两件事：
+
+        **绝不要在这个 issue 里放凭证。** 不要 API key，不要 token，不要 `.credentials.json`，不要带密码的连接串。下面没有对应的字段，这是故意的。见 [COMPLIANCE.md](https://github.com/mxx1111/spare-cycles/blob/main/COMPLIANCE.md)。
+
+        **绝不要按 token 或额度计价。** 积分只按任务复杂度定价。"我还剩 200 万 token 谁要" 是唯一一件能让这个项目变成大家一起被封号的事。
+
+  - type: dropdown
+    id: task_type
+    attributes:
+      label: "Task type / 任务类型"
+      description: "Does completing this burn the worker's AI quota? / 完成它会烧掉接单者的 AI 额度吗？"
+      options:
+        - "build — writing code, consumes AI quota / 写代码，消耗额度"
+        - "review — review someone's delivery (5 TP) / Review 别人的交付"
+        - "redact-audit — audit a sparepack output (10 TP) / 复核脱敏产出"
+        - "spec — write acceptance tests for a task (15 TP) / 帮别人写验收测试"
+        - "arbitrate — arbitrate a dispute (10 TP) / 仲裁争议"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: "Size / 档位"
+      description: "build tasks only. Non-build types have fixed pricing. / 只对 build 类有效，其他类型是固定价。"
+      options:
+        - "S — up to 30 min, 10 TP / 30 分钟内"
+        - "M — 30 min to 2 h, 30 TP / 30 分钟到 2 小时"
+        - "L — 2 h to half a day, 80 TP / 2 小时到半天"
+        - "N/A — this is a no-quota task / 不适用"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: privacy_tier
+    attributes:
+      label: "Privacy tier / 隐私级别"
+      description: "How much of your code does the worker see? See [PRIVACY-TIERS.md](https://github.com/mxx1111/spare-cycles/blob/main/PRIVACY-TIERS.md). / 接单者能看到多少你的代码？"
+      options:
+        - "P0 — public repository / 公开仓库"
+        - "P1 — redacted sparepack, interfaces and tests only / 脱敏任务包，只给接口和测试"
+        - "P2 — ephemeral Codespace sandbox / 一次性 Codespace 沙箱"
+        - "P3 — trust circle, NDA required / 信任圈，需 NDA"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "What needs doing / 要做什么"
+      description: "Enough context for someone who has never seen your project. Say what it is for, not just what to type. / 给一个从没见过你项目的人足够的上下文。说清楚这是干嘛用的，而不只是要敲什么。"
+      placeholder: |
+        The CSV importer chokes on files over 50MB — it reads the whole thing into
+        memory. It needs to stream instead. The parser interface is fixed, the tests
+        in the pack define the expected behavior including the malformed-row cases.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: "Acceptance criteria / 验收标准"
+      description: "**This is the contract.** Anything not written here cannot later be used as grounds for refusing delivery. Be specific and be complete. / **这就是合同。** 没写在这里的东西，事后不能拿来作为拒收的理由。写具体，写全。"
+      placeholder: |
+        - [ ] All tests in tests/importer/ pass
+        - [ ] Peak memory stays under 100MB for a 500MB input file
+        - [ ] Malformed rows are collected and reported, not thrown on
+        - [ ] No new runtime dependencies
+    validations:
+      required: true
+
+  - type: input
+    id: access
+    attributes:
+      label: "How to get the code / 怎么拿到代码"
+      description: "P0: repo URL. P1: link to the sparepack. P2/P3: write 'contact after claim' — arrange access privately, never in this issue. / P0 填仓库地址；P1 填任务包链接；P2/P3 写「接单后联系」，私下安排访问权，绝不要写在这个 issue 里。"
+      placeholder: "https://github.com/user/repo  或  contact after claim / 接单后联系"
+    validations:
+      required: true
+
+  - type: input
+    id: deadline
+    attributes:
+      label: "Deadline / 截止时间"
+      description: "Optional. Unclaimed tasks auto-close after 30 days regardless. / 可选。无论如何，无人接的任务 30 天后自动关闭。"
+      placeholder: "2026-09-01"
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: "Stack and setup / 技术栈与环境"
+      description: "Language, framework, versions, how to run the tests. / 语言、框架、版本、测试怎么跑。"
+      placeholder: |
+        TypeScript 5.x, Node 22, vitest
+        npm ci && npm test
+
+  - type: checkboxes
+    id: compliance
+    attributes:
+      label: "Confirmations / 确认事项"
+      options:
+        - label: "This issue contains no credentials, API keys, tokens, or secrets. / 这个 issue 里没有任何凭证、API key、token 或密钥。"
+          required: true
+        - label: "The reward is priced by task complexity, not by tokens or quota. / 悬赏是按任务复杂度定价的，不是按 token 或额度。"
+          required: true
+        - label: "For P1 tasks: I reviewed the sparepack output file by file before publishing it. / P1 任务：我在发布前逐个文件复核过脱敏产出。"
+        - label: "I have enough TP to escrow this task. / 我的 TP 余额够托管这个任务。"
+          required: true
