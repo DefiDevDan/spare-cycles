@@ -13,9 +13,10 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test ledger/verify.test.mjs scripts/pricing-rules.test.mjs",
+    "test": "node --test ledger/verify.test.mjs scripts/pricing-rules.test.mjs scripts/render-stats.test.mjs",
     "ledger": "node ledger/verify.mjs",
     "ledger:write": "node ledger/verify.mjs --write",
+    "stats": "node scripts/render-stats.mjs",
     "scan": "node scripts/scan-repo.mjs"
   },
   "devDependencies": {
