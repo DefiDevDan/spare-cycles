@@ -1,0 +1,10 @@
+# Findings the credential scanner reports that have been read and judged safe to publish.
+#
+# Format, one per line:   rule-id:path        or   rule-id:path:line
+# `#` starts a comment. Always leave one saying why — an entry with no reasoning is
+# indistinguishable from someone silencing an inconvenient check.
+#
+# Adding a line here is a decision that a specific value is safe in public. It is not a way
+# to make the build green. If you have not read the line the finding points at, do not add it.
+#
+# (Empty. The scanner currently reports nothing on this repository.)

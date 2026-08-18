@@ -1,0 +1,90 @@
+name: Compliance
+
+# COMPLIANCE.md claims CI enforces red lines 1 and 3 on submitted text. This is that claim.
+on:
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # The body is passed through the environment, never interpolated into the script.
+      # `${{ github.event.issue.body }}` spliced into a `run:` block is a command-injection
+      # hole: anyone who can open an issue can then run commands in this job.
+      - name: Scan submitted text
+        id: scan
+        env:
+          BODY: ${{ github.event.comment.body || github.event.issue.body }}
+        run: |
+          printf '%s' "$BODY" | node scripts/scan-text.mjs > verdict.json
+          cat verdict.json
+          {
+            echo "block=$(node -p "require('./verdict.json').block")"
+            echo "review=$(node -p "require('./verdict.json').review")"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Flag leaked credentials
+        if: steps.scan.outputs.block == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh issue edit "$ISSUE" --repo "$REPO" --add-label violation
+          # The comment names the rule but never the value — the scanner masks excerpts, and
+          # republishing a leaked secret in a bot comment would be its own incident.
+          node -e '
+            const v = require("./verdict.json");
+            const lines = v.credentials.map(c => `- line ${c.line}: ${c.label} (${c.severity})`);
+            console.log([
+              "**A credential pattern was detected in this text.**",
+              "",
+              ...lines,
+              "",
+              "COMPLIANCE.md red line 1: never share credentials. Please edit this out now, then **rotate the secret** — editing removes it from view, not from anyone who already read it, and not from the edit history.",
+              "",
+              "检测到疑似凭证。请立即编辑删除，然后**轮换该密钥**——编辑只是让它不再显示，读过的人和编辑历史都还在。",
+            ].join("\n"));
+          ' > body.md
+          gh issue comment "$ISSUE" --repo "$REPO" --body-file body.md
+          echo "::error::Credential pattern detected in submitted text. See COMPLIANCE.md red line 1."
+          exit 1
+
+      - name: Flag quota-denominated pricing
+        if: steps.scan.outputs.review == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh issue edit "$ISSUE" --repo "$REPO" --add-label needs-review
+          node -e '
+            const v = require("./verdict.json");
+            const lines = v.pricing.map(p => `- line ${p.line}: ${p.label}`);
+            console.log([
+              "**This text reads like quota is being priced or traded.** Flagged for a human to look at; nothing has been blocked.",
+              "",
+              ...lines,
+              "",
+              "COMPLIANCE.md red line 3: Task Points are priced by task complexity, never by tokens or quota. If this is a false positive, a maintainer will remove the label.",
+              "",
+              "这段文字看起来在按额度计价或交易额度，已标记待人工复核，未做任何拦截。积分只按任务复杂度定价。如果是误报，维护者会移除标签。",
+            ].join("\n"));
+          ' > body.md
+          gh issue comment "$ISSUE" --repo "$REPO" --body-file body.md

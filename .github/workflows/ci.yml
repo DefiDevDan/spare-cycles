@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Tests
+        run: npm test
+
+      - name: Ledger invariants
+        run: npm run ledger
+
+      # balances.json is derived from ledger.jsonl. Recomputing it must be a no-op; if the
+      # file has been hand-edited, or an entry was changed after the fact, the diff shows up
+      # here. The ledger is append-only precisely so this check is meaningful.
+      - name: Ledger snapshot is current
+        run: |
+          npm run ledger:write
+          if ! git diff --quiet -- ledger/balances.json; then
+            echo "::error file=ledger/balances.json::balances.json does not match a recomputation from ledger.jsonl"
+            git --no-pager diff -- ledger/balances.json
+            echo "Run 'npm run ledger:write' and commit the result. If the diff looks wrong, the ledger was edited rather than appended to."
+            exit 1
+          fi
+          echo "balances.json matches the recomputation."
+
+      # COMPLIANCE.md red line 1, enforced rather than promised.
+      - name: Credential scan
+        run: npm run scan
+
+      # Only reaches PRs to this repository. Delivery PRs live in the requester's repo,
+      # where this workflow has no reach — see the note in check-attestation.mjs.
+      - name: Attestation checkboxes
+        if: github.event_name == 'pull_request'
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: node scripts/check-attestation.mjs

@@ -52,13 +52,24 @@ The line is between delivering **output** and delivering **access**. Output is f
 
 ## Enforcement
 
-| Check | How |
-|---|---|
-| Credential patterns in issues/PRs/comments | CI regex scan, auto-minimize comment, `violation` label, maintainer ping |
-| Quota-denominated pricing | CI keyword scan, `needs-review` label |
-| Human-review attestation | Required checkbox in the PR template, CI fails if unchecked |
-| Claim rate limits | Bot rejects `/claim` past the limit |
-| Ledger integrity | Scheduled job recomputes balances from `ledger.jsonl` and diffs against `balances.json` |
+| Check | How | Status |
+|---|---|---|
+| Credential patterns in tracked files | `ci.yml` scans every version-controlled file using sparepack's rules; findings appear as annotations on the diff | **live** |
+| Credential patterns in issues and comments | `compliance.yml` scans the submitted text, applies the `violation` label, and comments naming the rule but never the value | **live** |
+| Quota-denominated pricing | `compliance.yml` scans issue and comment text and applies `needs-review`; it flags for a human rather than blocking | **live** |
+| Ledger integrity | `ci.yml` recomputes every balance from `ledger.jsonl` and fails if the committed `balances.json` disagrees | **live** |
+| Human-review attestation | `ci.yml` requires the four PR-template statements to be present and ticked | **live, this repo only** |
+| Attestation on delivery PRs | Delivery PRs live in the requester's repository, out of this workflow's reach. Rides on the `/done` comment instead | **not enforced** |
+| Claim rate limits | Needs a bot that does not exist yet; `/claim` is handled by hand during Phase 0 | **not enforced** |
+
+Two of these are honest gaps rather than oversights, and they are listed as gaps so that nobody
+reads this table and assumes more protection than exists. Both need the Phase 1 bot, which is
+deliberately unbuilt until Phase 0 answers whether the task board works at all.
+
+One limit worth stating plainly: the ledger check catches a stale snapshot and an edited
+history, but it cannot catch someone who edits the history *and* regenerates the snapshot in
+the same commit. What catches that is the append-only rule and a human reading the diff. CI
+narrows the gap; it does not close it.
 
 Deliberate violation of red lines 1, 2, or 5 is a permanent ban with the balance zeroed. The rest are handled case by case, see [GOVERNANCE.md](GOVERNANCE.md).
 
@@ -131,13 +142,22 @@ CI 会把含额度计价表述的任务描述标出来交人工复核。
 
 ## 执行方式
 
-| 检查项 | 手段 |
-|---|---|
-| issue/PR/评论里的凭证特征 | CI 正则扫描，自动折叠评论，打 `violation` 标签，@维护者 |
-| 按额度计价 | CI 关键词扫描，打 `needs-review` 标签 |
-| 人工审阅声明 | PR 模板必勾项，未勾选 CI 不通过 |
-| 接单速率限制 | bot 在 `/claim` 时直接拒绝 |
-| 账本完整性 | 定时任务从 `ledger.jsonl` 重算余额并与 `balances.json` 比对 |
+| 检查项 | 手段 | 状态 |
+|---|---|---|
+| 受版本控制文件里的凭证 | `ci.yml` 用 sparepack 的规则扫描全部文件，命中以注解形式落在 diff 上 | **已生效** |
+| issue 与评论里的凭证 | `compliance.yml` 扫描提交的文本，打 `violation` 标签并评论说明违反了哪条规则，但绝不复述那个值 | **已生效** |
+| 按额度计价 | `compliance.yml` 扫描 issue 与评论文本，打 `needs-review` 交人工复核，不做拦截 | **已生效** |
+| 账本完整性 | `ci.yml` 从 `ledger.jsonl` 重算全部余额，与提交的 `balances.json` 不符即失败 | **已生效** |
+| 人工审阅声明 | `ci.yml` 要求 PR 模板那四条声明存在且已勾选 | **已生效，仅限本仓库** |
+| 交付 PR 的声明 | 交付 PR 在发布者自己的仓库里，本 workflow 够不着，改由 `/done` 评论承载 | **未强制** |
+| 接单速率限制 | 需要一个还不存在的 bot；Phase 0 期间 `/claim` 由人工处理 | **未强制** |
+
+后两条是如实标注的缺口，不是疏漏。列在这里是为了不让人读完这张表以为保护比实际更多。它们都需要
+Phase 1 的 bot，而那个 bot 被刻意推迟，直到 Phase 0 回答「这个任务板到底成不成立」。
+
+有一条局限值得直说：账本检查能抓到过期的快照和被编辑的历史，但抓不到在同一个提交里既改历史又
+重新生成快照的人。能抓住那种情况的是「只追加」这条规则和一双读 diff 的眼睛。CI 收窄了缺口，
+但没有把它堵死。
 
 故意违反第 1、2、5 条是永久封禁并清零余额。其余按具体情况处理，见 [GOVERNANCE.md](GOVERNANCE.md)。
 

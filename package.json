@@ -13,8 +13,12 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "node --test ledger/verify.test.mjs",
+    "test": "node --test ledger/verify.test.mjs scripts/pricing-rules.test.mjs",
     "ledger": "node ledger/verify.mjs",
-    "ledger:write": "node ledger/verify.mjs --write"
+    "ledger:write": "node ledger/verify.mjs --write",
+    "scan": "node scripts/scan-repo.mjs"
+  },
+  "devDependencies": {
+    "sparepack": "^0.1.1"
   }
 }
