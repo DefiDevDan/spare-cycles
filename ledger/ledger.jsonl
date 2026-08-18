@@ -1,3 +1,8 @@
 // Append-only. Never edit or delete a line. Corrections are new compensating entries.
 // Schema and invariants: see ledger/README.md. Verify with: npm test
 {"seq":1,"ts":"2026-08-18T00:00:00Z","type":"grant","to":"mxx1111","amount":50,"reason":"onboarding: founding maintainer"}
+{"seq":2,"ts":"2026-08-18T12:00:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#1"}
+{"seq":3,"ts":"2026-08-18T12:01:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#2"}
+{"seq":4,"ts":"2026-08-18T12:02:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#3"}
+{"seq":5,"ts":"2026-08-18T12:03:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#4"}
+{"seq":6,"ts":"2026-08-18T12:04:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#5"}
