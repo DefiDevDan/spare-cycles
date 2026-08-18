@@ -6,3 +6,4 @@
 {"seq":4,"ts":"2026-08-18T12:02:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#3"}
 {"seq":5,"ts":"2026-08-18T12:03:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#4"}
 {"seq":6,"ts":"2026-08-18T12:04:00Z","type":"escrow","from":"mxx1111","amount":10,"ref":"#5"}
+{"seq":7,"ts":"2026-08-18T13:00:00Z","type":"refund","to":"mxx1111","amount":10,"ref":"#2","reason":"requester withdrew: remote-code-mobile is no longer maintained"}

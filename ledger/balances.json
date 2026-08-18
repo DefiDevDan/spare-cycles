@@ -1,14 +1,13 @@
 {
   "generated_from": "ledger.jsonl",
-  "entries": 6,
+  "entries": 7,
   "total_issued": 50,
-  "in_escrow": 50,
+  "in_escrow": 40,
   "balances": {
-    "mxx1111": 0
+    "mxx1111": 10
   },
   "open_escrow": {
     "#1": 10,
-    "#2": 10,
     "#3": 10,
     "#4": 10,
     "#5": 10

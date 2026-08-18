@@ -90,9 +90,13 @@ The cost is that your code passes through GitHub's cloud. For most projects that
 
 Full repository access under an NDA, for people you already have a relationship with. Requires 5+ successful deliveries in the community before a worker is eligible.
 
-### Self-hosted sandbox (experimental)
+### Self-hosted sandbox (not implemented)
 
-For code that genuinely cannot go to any cloud. A Docker container derived from [`remote-code-mobile`](https://github.com/mxx1111/remote-code-mobile): egress allowlist limited to `api.anthropic.com` plus package registries, a Tailscale ephemeral node with an ACL pinned to the worker's single device, full session recording, container destroyed and token revoked when the task closes.
+For code that genuinely cannot go to any cloud. **There is no implementation of this today** — what follows is the requirement, not a thing you can go and use.
+
+A container the requester hosts, with: egress allowlisted to `api.anthropic.com` plus package registries and nothing else, access granted through a per-task ephemeral credential pinned to the worker's single device, full session recording, and destruction of both container and credential when the task closes.
+
+An earlier draft of this document pointed at a self-hosted terminal gateway as the starting point for building it. That project is no longer maintained, so the pointer has been removed rather than left to rot. If you need this tier, expect to build it, and read the warning below first — it may change your mind about wanting it.
 
 **⚠️ Read this before using it.** In this mode the host can technically read credentials inside the container. The mitigations (session recording, ephemeral tokens, egress control) reduce the blast radius but do not eliminate that fact. Use it only where the trust already exists and both sides understand the tradeoff. If you are the worker and you do not know the requester personally, decline and ask for P1 or P2 instead.
 
@@ -201,9 +205,13 @@ redact:     [ { pattern: "acme-corp|ACME", replace: "example-org" } ]
 
 NDA 下的完整仓库访问，只给你已经有关系的人。接单者需要在社区内有 5 次以上成功交付才有资格。
 
-### 自托管沙箱（实验性）
+### 自托管沙箱（尚无实现）
 
-给那种确实不能上任何云的代码。基于 [`remote-code-mobile`](https://github.com/mxx1111/remote-code-mobile) 派生的 Docker 容器：出网白名单只放行 `api.anthropic.com` 和包管理源，Tailscale ephemeral node 的 ACL 锁死接单者的单个设备，全程会话录制，任务关闭时销毁容器并吊销令牌。
+给那种确实不能上任何云的代码。**目前没有实现**，下面写的是要求，不是一个你可以拿来就用的东西。
+
+一个由发布者托管的容器：出网白名单只放行 `api.anthropic.com` 和包管理源，其余一律禁止；访问权通过一次性凭据授予，并锁死接单者的单个设备；全程会话录制；任务关闭时容器和凭据一起销毁。
+
+本文档早先的版本把一个自托管终端网关项目指为搭建它的起点。那个项目已不再维护，所以这里把指针删掉，而不是留着烂在文档里。真需要这一级的话，做好自己从头搭的准备，而且先读下面那段警告——读完你可能就不想要了。
 
 **⚠️ 用之前必须读这段。** 这个模式下，宿主方在技术上可以读到容器内的凭证。那些缓解措施（会话录制、临时令牌、出网管控）能缩小影响范围，但消不掉这个事实。只在信任已经存在、且双方都理解这个取舍的情况下用。如果你是接单者、又不认识发布者本人，直接拒绝，要求改走 P1 或 P2。
 
