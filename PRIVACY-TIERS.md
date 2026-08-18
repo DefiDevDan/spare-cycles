@@ -27,9 +27,9 @@ The idea: **do not hand over code, hand over a specification.** Interface signat
 Produced by the `sparepack` CLI:
 
 ```bash
-sparepack init            # interactive, writes sparepack.yml
-sparepack pack            # extract → redact → review → emit
-sparepack verify <pkg>    # run the tests in a clean container, re-scan for secrets
+sparepack init            # writes a commented sparepack.yaml
+sparepack pack            # extract → redact → scan → review → emit
+sparepack verify <pkg>    # re-derive the pack from disk and re-scan it
 ```
 
 ### Allowlist only
@@ -40,13 +40,15 @@ Nothing is exposed unless you name it. There is no "exclude these and ship the r
 include:    [ "src/payment/types.ts" ]        # exposed verbatim
 interfaces: [ "src/payment/gateway.ts" ]      # signatures kept, bodies emptied
 tests:      [ "tests/payment/*.spec.ts" ]     # this IS the task specification
-fixtures:   { "data/orders.json": "faker:order[20]" }
+fixtures:   { "data/orders.json": "shape:5" }   # empty | shape[:n] | rows:n | text:n
 redact:     [ { pattern: "acme-corp|ACME", replace: "example-org" } ]
 ```
 
 ### What gets scanned
 
-Built-in patterns for API key prefixes across major providers, Chinese national ID numbers, mainland mobile numbers, email addresses, private IP ranges and internal hostnames, database connection strings, and common table-name shapes. Optionally shells out to `gitleaks` if it is installed.
+Built-in patterns for API key prefixes across major providers, private key blocks, JWTs, connection strings carrying a real password, hardcoded secret assignments, Chinese national ID and mobile numbers, email addresses, private IP ranges, and internal hostnames.
+
+Findings never carry the full matched text — a report that leaks what it found is worse than no report, so each one shows a masked excerpt and a length. Credentials and personal data block the build; internal topology only warns.
 
 ### The human gate
 
@@ -58,7 +60,13 @@ The scanner is lexical: it finds patterns, not meaning. A business rule spelled 
 
 ### Status: implemented
 
-`sparepack` lives in [`packages/sparepack`](packages/sparepack) and works today. See its [README](packages/sparepack/README.md) for the full configuration reference.
+`sparepack` works today and lives in its own repository: [mxx1111/sparepack](https://github.com/mxx1111/sparepack), published as [`sparepack` on npm](https://www.npmjs.com/package/sparepack).
+
+```bash
+npx sparepack@beta init
+```
+
+It does not depend on this project — you do not need a task board to want help with your code without handing over the codebase.
 
 ### When P1 does not fit
 
@@ -148,9 +156,9 @@ Bias toward P1. If you find yourself reaching for P2 often, the tasks are probab
 由 `sparepack` CLI 生成：
 
 ```bash
-sparepack init            # 交互式，生成 sparepack.yml
-sparepack pack            # 抽取 → 脱敏 → 人工复核 → 产出
-sparepack verify <pkg>    # 在干净容器里跑测试，再扫一遍密钥
+sparepack init            # 生成一份带注释的 sparepack.yaml
+sparepack pack            # 抽取 → 脱敏 → 扫描 → 人工复核 → 产出
+sparepack verify <pkg>    # 从磁盘重新推导任务包并再扫一遍
 ```
 
 ### 白名单制
@@ -161,13 +169,15 @@ sparepack verify <pkg>    # 在干净容器里跑测试，再扫一遍密钥
 include:    [ "src/payment/types.ts" ]        # 原样暴露
 interfaces: [ "src/payment/gateway.ts" ]      # 保留签名，清空函数体
 tests:      [ "tests/payment/*.spec.ts" ]     # 这就是任务规约本身
-fixtures:   { "data/orders.json": "faker:order[20]" }
+fixtures:   { "data/orders.json": "shape:5" }   # empty | shape[:n] | rows:n | text:n
 redact:     [ { pattern: "acme-corp|ACME", replace: "example-org" } ]
 ```
 
 ### 扫什么
 
-内置规则覆盖各家厂商的 API key 前缀、中国大陆身份证号、手机号、邮箱、内网 IP 段和内部域名、数据库连接串，以及常见的表名形态。如果机器上装了 `gitleaks`，可以选择顺带调一遍。
+内置规则覆盖各家厂商的 API key 前缀、私钥块、JWT、带真实密码的连接串、硬编码的密钥赋值、中国大陆身份证号与手机号、邮箱、内网 IP 段和内部域名。
+
+findings 永远不含完整匹配内容——一份会泄露它所发现之物的报告，比没有报告更糟，所以每条只给遮蔽摘要和长度。凭证和个人数据会阻断构建，内网拓扑只警告。
 
 ### 人工闸门
 
@@ -179,7 +189,13 @@ redact:     [ { pattern: "acme-corp|ACME", replace: "example-org" } ]
 
 ### 状态：已实现
 
-`sparepack` 在 [`packages/sparepack`](packages/sparepack)，现在就能用。完整配置说明见它的 [README](packages/sparepack/README.md)。
+`sparepack` 现在就能用，在它自己的仓库里：[mxx1111/sparepack](https://github.com/mxx1111/sparepack)，已发布到 npm：[`sparepack`](https://www.npmjs.com/package/sparepack)。
+
+```bash
+npx sparepack@beta init
+```
+
+它不依赖本项目——想让人帮你改代码又不想交出整个代码库，这件事本身不需要一个任务板。
 
 ### P1 搞不定的情况
 
