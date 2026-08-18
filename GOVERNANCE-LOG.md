@@ -40,3 +40,11 @@ against them.
 **What this changed.** The claim rule in GOVERNANCE.md went from a description of intended
 behaviour to an enforced precondition, because #7 had two people independently deliver the
 same work and only one could be paid. That waste is the board's fault, not the workers'.
+
+---
+
+**2026-08-18 (later).** Issue #6, opened by `OpensrcLord` one minute after its four-claims-in-24-seconds
+spree, was closed as not-planned. It was a PR-shaped body claiming to implement #5 — which was in fact
+delivered by `ghzhost` and settled — with no pull request behind it. Found while verifying the
+agent-watch API example in the README against the real board: the query returned an "open bounty"
+that the ledger said was settled. The ledger was right.
