@@ -12,13 +12,8 @@
   "engines": {
     "node": ">=22"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "test": "npm run test:ledger && npm run test:sparepack",
-    "test:ledger": "node --test ledger/verify.test.mjs",
-    "test:sparepack": "npm --prefix packages/sparepack test",
+    "test": "node --test ledger/verify.test.mjs",
     "ledger": "node ledger/verify.mjs",
     "ledger:write": "node ledger/verify.mjs --write"
   }
