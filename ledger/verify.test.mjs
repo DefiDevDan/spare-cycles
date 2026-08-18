@@ -135,6 +135,21 @@ test('reordered entries are rejected', () => {
   assertRejected(r, 'seq must be 1')
 })
 
+test('a future-dated entry is rejected', () => {
+  // The regression that motivated this invariant: entries 1-8 were written with invented
+  // times, the last several hours ahead. Monotonicity passed because they increased; the
+  // error only surfaced when a real timestamp arrived behind the invented one, by which
+  // point settlement was blocked. A future date is proof the time was typed, not observed.
+  const future = new Date(Date.now() + 6 * 3600_000).toISOString().replace('.000', '')
+  assertRejected(verify([grant(1, 'alice', 50, future)]), 'in the future')
+})
+
+test('small clock skew is tolerated', () => {
+  const skewed = new Date(Date.now() + 60_000).toISOString().replace('.000', '')
+  const r = verify([grant(1, 'alice', 50, skewed)])
+  assert.equal(r.ok, true, `a minute of skew should pass:\n${r.errors.join('\n')}`)
+})
+
 test('a backdated entry is rejected', () => {
   const r = verify([grant(1, 'alice', 50, later(10)), grant(2, 'bob', 50, T)])
   assertRejected(r, 'goes backwards')

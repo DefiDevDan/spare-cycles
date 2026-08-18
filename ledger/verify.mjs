@@ -30,6 +30,10 @@ const REF = /^#\d+$/
 const errors = []
 const warnings = []
 
+const NOW = Date.now()
+/** Clock skew between a contributor's machine and GitHub's is normal; hours of it is not. */
+const FUTURE_TOLERANCE_MS = 5 * 60 * 1000
+
 function fail(seq, msg) {
   errors.push(`  line ${seq}: ${msg}`)
 }
@@ -83,6 +87,13 @@ function checkShape(e, expectedSeq, prevTs) {
     fail(where, `ts is not a valid timestamp: ${JSON.stringify(e.ts)}`)
   } else if (prevTs !== null && ts < prevTs) {
     fail(where, `ts goes backwards (${e.ts})`)
+  } else if (ts > NOW + FUTURE_TOLERANCE_MS) {
+    // Entries 1-8 were originally written with invented times, the last of them several
+    // hours in the future. Nothing noticed until a real timestamp came in behind it and
+    // tripped the monotonicity check, by which point settlement was deadlocked. A ts must
+    // be an observed event time — issue createdAt, PR mergedAt — never a value typed to
+    // look plausible. A future date is the one shape that proves it was not observed.
+    fail(where, `ts is in the future (${e.ts}) — use the real event time, not an invented one`)
   }
 
   for (const field of Object.keys(spec)) {

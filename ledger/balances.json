@@ -1,16 +1,16 @@
 {
   "generated_from": "ledger.jsonl",
-  "entries": 8,
+  "entries": 9,
   "total_issued": 50,
-  "in_escrow": 50,
+  "in_escrow": 40,
   "balances": {
+    "ghzhost": 10,
     "mxx1111": 0
   },
   "open_escrow": {
     "#1": 10,
     "#3": 10,
     "#4": 10,
-    "#5": 10,
-    "#7": 10
+    "#5": 10
   }
 }

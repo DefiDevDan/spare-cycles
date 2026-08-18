@@ -49,10 +49,29 @@ Limits are per person, not per account. Alt accounts to get around them are a ba
 | Stage | Action | Timeout |
 |---|---|---|
 | Posted | Issue opened, TP escrowed | 30 days, then auto-close and refund |
-| Claimed | `/claim` comment, assignee set | 2× the tier's time estimate, then auto-release |
+| Claimed | `/claim` comment, **maintainer assigns the issue** | 2× the tier's time estimate, then auto-release |
 | Delivered | PR opened with `Closes #<issue>` | — |
 | Under review | Requester reviews | 7 days, then escalates to `stale-review` |
 | Settled | PR merged, ledger updated, profiles updated | — |
+
+### Claiming is a precondition, not an announcement
+
+**Do not start work until the issue is assigned to you.** A `/claim` comment is a request;
+the assignment is the answer. One person is assigned at a time, and only that person's
+delivery is eligible for the TP.
+
+This is not bureaucracy, it is the only thing standing between a contributor and wasted work.
+On the board's first day, task #7 received two independently correct implementations two
+hours apart. Both passed all nine acceptance tests. Only one could be paid. The second person
+spent their evening on work that had already been done, and they had no way to know — nothing
+on the issue said it was taken. That waste was the board's fault.
+
+If an issue is already assigned and you think you can do better, say so in a comment rather
+than opening a competing PR. If the assignee goes quiet past the timeout, the claim releases
+and you can take it.
+
+A `/claim` on an already-assigned issue, or from someone already at their limit (2 concurrent,
+5 per rolling week), is declined with a comment explaining which limit was hit.
 
 `/release` gives up a claim voluntarily with no penalty. Doing it three times in a row triggers a maintainer conversation, not a sanction — usually it means the tasks are badly specified.
 
@@ -98,6 +117,8 @@ Currently one: [@mxx1111](https://github.com/mxx1111). This is a bootstrapping s
 Maintainers can: arbitrate, apply sanctions, correct ledger errors (with a recorded reason), and merge changes to this repository.
 
 Maintainers cannot: create TP out of nothing, alter historical ledger entries, or grant themselves TP. Ledger corrections are append-only compensating entries, never edits. The audit job recomputes every balance from the full history and will surface any edit.
+
+**This rule has been broken once**, on 2026-08-18, and the exception is documented rather than hidden. The `ts` field on entries 1–8 had been hand-written as invented values instead of observed event times; the last of them was several hours in the future and had deadlocked settlement. All nine were rewritten in one pass with real times pulled from the GitHub API. No amount, type, account, or balance changed — only timestamps that were wrong to begin with. The reasoning is in the header of `ledger.jsonl` and in [GOVERNANCE-LOG.md](GOVERNANCE-LOG.md), and `verify.mjs` now rejects any future-dated entry, which would have caught it on the first line. If this needs doing again, it needs a `governance` issue and seven days of discussion like any other rule change.
 
 ## Changing these rules
 
@@ -154,10 +175,26 @@ Open an issue with the `governance` label. Changes affecting TP pricing or red l
 | 阶段 | 动作 | 超时 |
 |---|---|---|
 | 已发布 | issue 开启，TP 进托管 | 30 天后自动关闭并退回 |
-| 已接单 | `/claim` 评论，指派 assignee | 档位预估时长的 2 倍，之后自动释放 |
+| 已接单 | `/claim` 评论，**维护者指派 assignee** | 档位预估时长的 2 倍，之后自动释放 |
 | 已交付 | 提 PR，正文含 `Closes #<issue>` | — |
 | 待验收 | 发布者审阅 | 7 天后升级为 `stale-review` |
 | 已结算 | PR 合并，账本与档案更新 | — |
+
+### 认领是前置条件，不是通知
+
+**issue 指派给你之前不要动手。** `/claim` 评论是申请，指派才是答复。同一时刻只指派一个人，
+也只有那个人的交付有资格拿这份 TP。
+
+这不是官僚流程，这是贡献者和白干之间唯一的那道屏障。板子开张第一天，任务 #7 在两小时内收到
+两份各自都正确的实现，九个验收测试都全过，但只有一份能拿到钱。第二个人花了一晚上做一件已经
+做完的事，而他没有任何办法知道——issue 上没有任何东西显示它已经被人接了。那份浪费是板子的
+责任。
+
+如果一个 issue 已经被指派，而你觉得自己能做得更好，在评论里说，不要另提一个 PR 竞争。如果
+被指派的人超时没动静，认领会自动释放，那时你可以接。
+
+对已被指派的 issue 发 `/claim`，或者发起人已经到了上限（同时 2 个、滚动 7 天内 5 个），会被
+拒绝并附上说明是哪条限制卡住了。
 
 `/release` 是主动放弃接单，无惩罚。连续三次会触发一次维护者对话，但那不是处分，通常意味着任务本身写得不清楚。
 
@@ -203,6 +240,8 @@ Open an issue with the `governance` label. Changes affecting TP pricing or red l
 维护者可以：仲裁、执行处分、更正账本错误（须记录理由）、合并本仓库的变更。
 
 维护者不可以：凭空创造 TP、修改历史账本条目、给自己发 TP。账本更正一律是只追加的冲正条目，绝不是编辑。审计任务会从完整历史重算每一个余额，任何编辑都会被翻出来。
+
+**这条规则被破过一次**，2026-08-18，而这次例外是写下来的，不是藏起来的。前 8 条的 `ts` 当初是手写的编造值而不是实际观测到的事件时间，其中最后一条落在几小时之后的未来，把结算卡死了。九条时间戳一次性用 GitHub API 拉的真实时间重写。金额、类型、账户、余额一律未动，改的只是本来就是错的那些时间。理由写在 `ledger.jsonl` 的文件头和 [GOVERNANCE-LOG.md](GOVERNANCE-LOG.md) 里，`verify.mjs` 现在会拒绝任何未来时间的条目——那条不变量本来在第一行就能拦住它。如果还需要再来一次，就得走 `governance` issue 和七天讨论，跟任何其他规则变更一样。
 
 ## 修改这些规则
 

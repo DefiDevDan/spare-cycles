@@ -13,7 +13,7 @@ Append-only. One JSON object per line in `ledger.jsonl`. Never edit a line, neve
 ```jsonc
 {
   "seq":    1,                        // integer, strictly increasing from 1, no gaps
-  "ts":     "2026-08-18T09:00:00Z",   // ISO 8601 UTC, non-decreasing
+  "ts":     "2026-08-18T09:00:00Z",   // ISO 8601 UTC. An OBSERVED event time, never typed
   "type":   "grant",                  // see below
   "amount": 50,                       // positive integer TP
   "from":   "mxx1111",                // optional, depends on type
@@ -46,12 +46,24 @@ User-to-user transfers do not exist in this schema. This is red line 5 from [COM
 
 `verify.mjs` 把任何无法识别的 type（包括 `transfer`）视为篡改，直接非零退出。
 
+## Timestamps must be observed, not typed
+
+`ts` is the time the event actually happened, taken from the source of truth: `createdAt` on
+the issue for an `escrow`, `closedAt` for a `refund`, `mergedAt` on the pull request for a
+`settle`. Pull it with `gh` rather than typing something plausible.
+
+This is stated as a rule because it was broken. Entries 1–8 were originally filled in with
+tidy invented values — 12:00, 12:01, … 14:00 — none of which corresponded to anything. The
+monotonicity check passed, because invented increasing numbers do increase. The error only
+surfaced when a real timestamp arrived behind the invented one and settlement deadlocked.
+See the header of `ledger.jsonl` for the correction.
+
 ## Invariants
 
 Checked by `verify.mjs` on every run:
 
 1. `seq` starts at 1, increases by exactly 1, no gaps or repeats
-2. `ts` never goes backwards
+2. `ts` never goes backwards, and is never in the future (5 min clock-skew tolerance)
 3. Every `type` is one of the six above
 4. `amount` is a positive integer
 5. No user balance ever goes negative at any point in history
