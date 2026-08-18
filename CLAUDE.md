@@ -19,19 +19,33 @@ re-add it here. That repo releases itself from a version tag via GitHub Actions 
 publishing; its `RELEASE.md` is the reference, and nothing about publishing it belongs in this repo.
 
 The project is in **Phase 0**: five real tasks run by hand to find out whether anyone claims them.
-No automation, no bot, no CI workflows (`.github/` has templates only). Do not build the bot,
-workflows, or ledger jobs unless asked — `PHASE-0.md` explains why that is a deliberate hold, not a
-gap.
+There is no bot and no task-lifecycle automation — `/claim`, settlement, and rate limits are all
+done by hand. Do not build the bot or the lifecycle workflows unless asked; `PHASE-0.md` explains
+why that is a deliberate hold, not a gap.
+
+**Two CI workflows do exist** (`.github/workflows/`), and they are not lifecycle automation. They
+exist because COMPLIANCE.md claimed several red lines were "enforced by CI rather than by trust"
+while `.github/workflows/` did not exist at all — the enforcement table was describing a system
+nobody had built. `ci.yml` runs tests, checks the ledger snapshot, scans tracked files for
+credentials, and requires the PR attestation. `compliance.yml` scans issue and comment text for
+credentials and quota-denominated pricing. The enforcement table in COMPLIANCE.md now marks each
+row live or not enforced; keep it honest when you change either workflow.
 
 ## Commands
 
-Node ≥ 22, ESM (`"type": "module"`), zero dependencies — there is no `node_modules`, no lockfile, no
-build step, and no linter.
+Node ≥ 22, ESM (`"type": "module"`), no build step and no linter. One devDependency: `sparepack`,
+used by the credential scanner so that "what counts as a secret" has a single definition instead of
+a copy here that drifts from the original. That is the whole reason for the dependency; if you find
+yourself adding a second one, question it.
 
 ```bash
-npm test                     # node --test ledger/verify.test.mjs
+npm test                     # ledger verifier + pricing rules
 npm run ledger               # verify ledger.jsonl, print balances (exit 1 = tampering)
 npm run ledger:write         # verify and rewrite balances.json
+npm run scan                 # scan tracked files for credentials (exit 1 = blocking finding)
+
+# scan one piece of submitted text the way compliance.yml does
+printf '%s' "$BODY" | node scripts/scan-text.mjs
 
 # a single test by name
 node --test --test-name-pattern "escrow" ledger/verify.test.mjs
