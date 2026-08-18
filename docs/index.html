@@ -387,8 +387,8 @@
       <b><span data-zh>账本谁都能从零重算</span><span data-en>Anyone can recompute the ledger</span></b>
       <p>
         <!-- stats:summary -->
-<span data-zh>17 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
-<span data-en>17 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
+<span data-zh>18 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
+<span data-en>18 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
 <!-- /stats:summary -->
       </p>
     </div>
@@ -613,15 +613,15 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
 <pre><span class="c">$ git clone https://github.com/mxx1111/spare-cycles &amp;&amp; cd spare-cycles</span>
 $ node ledger/verify.mjs
 
-ledger.jsonl — 17 entries
+ledger.jsonl — 18 entries
 
 Balances:
-  ghzhost                     40 TP
+  ghzhost                     50 TP
   manav8498                   10 TP
   mxx1111                      0 TP
   ———————————————————————— —————
-  in balances                 50 TP
-  in escrow                   50 TP
+  in balances                 60 TP
+  in escrow                   40 TP
   total issued               100 TP
 
 <span class="g">All invariants hold.</span></pre>
@@ -704,7 +704,7 @@ const TYPES = {
   <div class="stat-row">
     <div class="stat"><span class="n">2h48m</span><div class="k"><span data-zh>首个交付</span><span data-en>to first delivery</span></div></div>
     <div class="stat"><!-- stats:settled -->
-<span class="n">5</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div>
+<span class="n">6</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div>
 <!-- /stats:settled --></div></div>
     <div class="stat"><span class="n">0</span><div class="k"><span data-zh>业务代码外泄</span><span data-en>lines of business logic exposed</span></div></div>
   </div>
@@ -883,7 +883,7 @@ const TYPES = {
         <td><span class="pos first">1</span></td>
         <td><a href="https://github.com/ghzhost">@ghzhost</a></td>
         <td>#5 · #4 · #3 · #7</td>
-        <td>40</td>
+        <td>50</td>
         <td><span data-zh><span class="tag delivered">交付 ×4</span>另有一次白干（#2，任务撤销后才交付）</span><span data-en><span class="tag delivered">delivered ×4</span>plus one wasted run (#2, after withdrawal)</span></td>
       </tr>
       <tr>
@@ -940,8 +940,8 @@ const TYPES = {
     </div>
     <!-- stats:totals -->
 <p class="note">
-      <span data-zh>合计：发放 100 TP，结算 50 TP，托管中 50（3 个开放任务）。账本 17 条记录，9 条不变量全过。发放额从 50 涨到 100，是维护者为给板子供资发放的一笔——<a href="https://github.com/mxx1111/spare-cycles/issues/12">规则改动</a>与<a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">全过程</a>都公开记录，那笔钱当天全部进了托管，维护者余额仍是 0。</span>
-      <span data-en>Total: 100 TP issued, 50 TP settled, 50 in escrow across 3 open tasks. 17 ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
+      <span data-zh>合计：发放 100 TP，结算 60 TP，托管中 40（2 个开放任务）。账本 18 条记录，9 条不变量全过。发放额从 50 涨到 100，是维护者为给板子供资发放的一笔——<a href="https://github.com/mxx1111/spare-cycles/issues/12">规则改动</a>与<a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">全过程</a>都公开记录，那笔钱当天全部进了托管，维护者余额仍是 0。</span>
+      <span data-en>Total: 100 TP issued, 60 TP settled, 40 in escrow across 2 open tasks. 18 ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
     </p>
 <!-- /stats:totals -->
   </div>

@@ -29,3 +29,4 @@
 {"seq": 15, "ts": "2026-08-18T15:10:36Z", "type": "escrow", "from": "mxx1111", "amount": 30, "ref": "#9"}
 {"seq": 16, "ts": "2026-08-18T15:11:05Z", "type": "escrow", "from": "mxx1111", "amount": 10, "ref": "#10"}
 {"seq": 17, "ts": "2026-08-18T15:11:36Z", "type": "escrow", "from": "mxx1111", "amount": 10, "ref": "#11"}
+{"seq": 18, "ts": "2026-08-18T16:19:50Z", "type": "settle", "to": "ghzhost", "amount": 10, "ref": "#11", "pr": "https://github.com/mxx1111/spare-cycles/pull/13"}
