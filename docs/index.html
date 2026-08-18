@@ -268,6 +268,33 @@
   footer { border-top: 1px solid var(--rule); padding: 40px 0 60px; color: var(--ink-faint); font-size: 14.5px; }
   footer a { color: var(--ink-soft); }
   .fl { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 14px; }
+
+  /* --- timeline --- */
+  .tl { list-style: none; margin: 28px 0 4px; padding: 0 0 0 20px; border-left: 2px solid var(--rule); }
+  .tl > li { position: relative; padding: 0 0 22px 24px; }
+  .tl > li:last-child { padding-bottom: 4px; }
+  .tl > li::before {
+    content: ""; position: absolute; left: -7px; top: 7px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--ink-faint);
+  }
+  .tl > li.ok::before { border-color: var(--ok); }
+  .tl > li.bad::before { border-color: var(--accent); }
+  .tl time { font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); letter-spacing: .02em; }
+  .tl .who { font-weight: 650; }
+  .tl p { margin: 5px 0 0; font-size: 15.5px; color: var(--ink-soft); }
+  .tl p b { color: var(--ink); }
+
+  /* --- leaderboard --- */
+  .lb { margin: 8px 0 4px; }
+  .lb .tw { margin: 0 0 14px; }
+  .lb .pos { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); }
+  .lb .pos.first { color: var(--accent); font-weight: 650; }
+  .lb td .tag { display: inline-block; font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; font-weight: 650; padding: 1px 7px; border-radius: 4px; margin-left: 6px; vertical-align: 1px; }
+  .lb .tag.delivered { color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 45%, transparent); }
+  .lb .tag.wasted { color: var(--warn); border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent); }
+  .lb .tag.words { color: var(--ink-faint); border: 1px solid var(--rule); }
+  .lb .note { font-size: 14.5px; color: var(--ink-soft); margin: 0; }
 </style>
 </head>
 <body>
@@ -691,6 +718,176 @@ const TYPES = {
     <span data-zh>所以接单现在是一个<strong>前置条件</strong>而不是一句声明：<code>/claim</code> 是申请，指派才是答复，<strong>issue 分配给你之前不要动手</strong>。这不是官僚流程，这是唯一挡在贡献者和白干之间的东西。</span>
     <span data-en>So claiming is now a <strong>precondition</strong>, not an announcement: <code>/claim</code> is a request, the assignment is the answer, and <strong>you do not start until the issue is assigned to you</strong>. That is not bureaucracy — it is the only thing standing between a contributor and wasted work.</span>
   </p>
+
+  <h3><span data-zh>第一天实况：24 小时，14 个账号</span><span data-en>Day one, hour by hour</span></h3>
+  <p class="small">
+    <span data-zh>板子开张 24 小时内的完整经过，全部可以从公开仓库里逐条核到：每个 issue、每条评论、每个 PR、每一笔账本记录。时间戳是 UTC。</span>
+    <span data-en>Everything that happened in the board's first 24 hours, each of it checkable line by line in the public repository: every issue, comment, pull request, and ledger entry. Times are UTC.</span>
+  </p>
+  <ol class="tl">
+    <li>
+      <time>00:06</time>
+      <p>
+        <span data-zh><span class="who">mxx1111</span> 连开 <b>#1–#5</b> 五个任务（#2 后来撤销，#7 稍后补发）。新人 50 TP 进了托管。</span>
+        <span data-en><span class="who">mxx1111</span> opens <b>#1–#5</b> in a row (#2 later withdrawn, #7 added shortly after). Fifty newcomer points go into escrow.</span>
+      </p>
+    </li>
+    <li class="bad">
+      <time>00:08</time>
+      <p>
+        <span data-zh>开张 <b>132 秒</b>后，<span class="who">OpensrcLord</span> 在 4 秒内对 #1–#5 连发 <code>/claim</code>、<code>/attempt</code>，全说「正在读代码，马上 PR」。四个任务，一个交付都没有。</span>
+        <span data-en><b>132 seconds</b> after opening, <span class="who">OpensrcLord</span> fires <code>/claim</code> and <code>/attempt</code> at #1–#5 within four of each other, each promising a PR "shortly". Four tasks, zero deliveries.</span>
+      </p>
+    </li>
+    <li class="bad">
+      <time>00:20</time>
+      <p>
+        <span data-zh><span class="who">mxx1111</span> 撤销 <b>#2</b>：remote-code-mobile 已停止维护，10 TP 退回。此时还没有人动手——这是运气，不是规则。</span>
+        <span data-en><span class="who">mxx1111</span> withdraws <b>#2</b>: remote-code-mobile is unmaintained, 10 TP refunded. Nobody had started yet — that was luck, not a rule.</span>
+      </p>
+    </li>
+    <li class="ok">
+      <time>02:54</time>
+      <p>
+        <span data-zh><span class="who">ghzhost</span> 在 mdlook 上提交 <b>PR #17</b>（#5）：lint、type-check、构建、dependabot 检查。第一个真实交付，距发单 2 小时 48 分。</span>
+        <span data-en><span class="who">ghzhost</span> opens <b>PR #17</b> on mdlook (#5): lint, type-check, build, dependabot checks. The first real delivery, 2 h 48 m after posting.</span>
+      </p>
+    </li>
+    <li class="bad">
+      <time>02:18–02:34</time>
+      <p>
+        <span data-zh><span class="who">chfr19820610-cell</span> 在 #1、#3、#4 上把同一段「我有丰富经验，请把这个悬赏指给我」<b>每 5 分钟重发一遍</b>，共 12 条，零交付。后面又刷了 5 条。这不是刷存在感，这是脚本。</span>
+        <span data-en><span class="who">chfr19820610-cell</span> re-pastes the same "I have strong experience, please assign me this bounty" <b>every five minutes</b> across #1, #3, #4 — twelve times, zero deliveries. Five more later. This is not a presence, this is a script.</span>
+      </p>
+    </li>
+    <li class="ok">
+      <time>06:07</time>
+      <p>
+        <span data-zh><span class="who">ghzhost</span> 对 <b>#7</b>（06:03 刚开）发出 <code>/done</code>，附 <a href="https://github.com/mxx1111/task-express-error-handler/pull/1">task-express-error-handler PR #1</a>，带逐行审阅声明。</span>
+        <span data-en><span class="who">ghzhost</span> posts <code>/done</code> on <b>#7</b> (opened 06:03) with <a href="https://github.com/mxx1111/task-express-error-handler/pull/1">task-express-error-handler PR #1</a>, attestation included.</span>
+      </p>
+    </li>
+    <li>
+      <time>06:10</time>
+      <p>
+        <span data-zh><span class="who">OpensrcLord</span> 在本仓库开了 <b>PR #6</b>：body 写着「实现 #5，Closes #5」，但 #5 早在 02:54 就有交付了，这个 PR 里没有可合并的东西。14:19 以 not-planned 关闭——一个连交付者都不是的人，试图关掉别人的任务。</span>
+        <span data-en><span class="who">OpensrcLord</span> opens <b>PR #6</b> in this repo: the body says "implements #5, Closes #5", but #5 already had a delivery at 02:54, and this PR has nothing mergeable in it. Closed as not-planned at 14:19 — someone who never delivered, trying to close someone else's task.</span>
+      </p>
+    </li>
+    <li class="ok">
+      <time>07:38</time>
+      <p>
+        <span data-zh><span class="who">ghzhost</span> 完成 <b>#2</b> 的全部验收标准，在 remote-code-mobile 上开了 PR #6——但任务 7 小时前就撤销了，TP 已退回。这是他的一晚上，白干。</span>
+        <span data-en><span class="who">ghzhost</span> completes all acceptance criteria of <b>#2</b> and opens PR #6 on remote-code-mobile — but the task was withdrawn seven hours earlier and its TP refunded. An evening, spent for nothing.</span>
+      </p>
+    </li>
+    <li class="bad">
+      <time>08:10</time>
+      <p>
+        <span data-zh><span class="who">davidmoserai</span> 对 <b>#7</b> 发出 <code>/done</code>（<a href="https://github.com/mxx1111/task-express-error-handler/pull/2">PR #2</a>），比 ghzhost 晚 2 小时 03 分。先到先得，PR 未合并即关闭，不结算。</span>
+        <span data-en><span class="who">davidmoserai</span> posts <code>/done</code> on <b>#7</b> (<a href="https://github.com/mxx1111/task-express-error-handler/pull/2">PR #2</a>), 2 h 03 m after ghzhost. First to deliver wins; the PR is closed unmerged, not settled.</span>
+      </p>
+    </li>
+    <li>
+      <time>04:27</time>
+      <p>
+        <span data-zh>（插叙 04:27）<span class="who">Rithikmahadev12</span> 在 #5 上报价 <b>$10 USD</b>，问「确认一下这个符合你的预期吗再开始」。红线 3：不出现货币定价。无下文。</span>
+        <span data-en>(Flashback to 04:27) <span class="who">Rithikmahadev12</span> quotes <b>$10 USD</b> on #5 and asks to confirm before starting. Red line 3: no monetary pricing. It does not go further.</span>
+      </p>
+    </li>
+    <li class="ok">
+      <time>10:27–11:14</time>
+      <p>
+        <span data-zh>逐个验收、逐条核完验收标准，<span class="who">mxx1111</span> 连结五笔：<b>#7</b> 10 TP → ghzhost（seq 9）、<b>#5</b> 10 TP → ghzhost（seq 10）、<b>#4</b> 10 TP → ghzhost（seq 11）、<b>#1</b> 10 TP → manav8498（seq 12）、<b>#3</b> 10 TP → ghzhost（seq 13）。账本 13 条，全部不变量通过。</span>
+        <span data-en>Acceptance criteria checked one by one, then <span class="who">mxx1111</span> settles all five: <b>#7</b> 10 TP → ghzhost (seq 9), <b>#5</b> 10 TP → ghzhost (seq 10), <b>#4</b> 10 TP → ghzhost (seq 11), <b>#1</b> 10 TP → manav8498 (seq 12), <b>#3</b> 10 TP → ghzhost (seq 13). Thirteen ledger entries, every invariant holding.</span>
+      </p>
+    </li>
+    <li>
+      <time>10:30</time>
+      <p>
+        <span data-zh>认领规则宣布生效，写进 GOVERNANCE.md：指派之前不要动手。上面 02:18 那 12 条重发、00:08 那 4 连抢，从这一刻起都算违规。</span>
+        <span data-en>The claim rule takes effect, written into GOVERNANCE.md: do not start before assignment. From this moment on, the twelve re-posts at 02:18 and the four-claim burst at 00:08 count as violations.</span>
+      </p>
+    </li>
+    <li>
+      <time>14:18</time>
+      <p>
+        <span data-zh>补关 <b>#1</b>——结算时忘了关 issue，此时才补上。<b>#8</b>（复盘：你为什么认领这个任务？）开出，至今 open，等认领规则生效后第一批接单的人来回答。</span>
+        <span data-en><b>#1</b> closed retroactively — it was forgotten at settlement. <b>#8</b> (the retro: why did you claim the task?) opens and is still waiting for the first claimants under the new rule to answer.</span>
+      </p>
+    </li>
+  </ol>
+  <p class="small muted">
+    <span data-zh>24 小时里：5 个任务结算、50 TP 花出去、2 个人拿到钱、1 个人白干、1 个人差点白干、3 个账号只留了字。板子转起来了，规则是被撞出来的——这正是 Phase 0 想要的结果。</span>
+    <span data-en>In 24 hours: five tasks settled, fifty points spent, two people paid, one person working for nothing, one person almost working for nothing, three accounts that only left words. The board is turning; the rules were written by the collisions — which is exactly what Phase 0 was for.</span>
+  </p>
+
+  <h3><span data-zh>账本上的位置</span><span data-en>Where everyone stands</span></h3>
+  <p class="small">
+    <span data-zh>余额就是 <code>npm run ledger</code> 重算出来的那个数，不是维护者填的表格。交付、白干、只留字——三种参与方式都列出来，因为后两种也是板子真实运转的一部分。</span>
+    <span data-en>The balances are exactly what <code>npm run ledger</code> recomputes — not a table the maintainer fills in. Delivered, wasted, words-only: all three ways of showing up are listed, because the latter two are part of the board actually running.</span>
+  </p>
+  <div class="lb">
+    <div class="tw">
+    <table class="num">
+      <tr><th><span data-zh>#</span><span data-en>#</span></th><th><span data-zh>账号</span><span data-en>Account</span></th><th><span data-zh>任务</span><span data-en>Tasks</span></th><th>TP</th><th><span data-zh>状态</span><span data-en>Standing</span></th></tr>
+      <tr>
+        <td><span class="pos first">1</span></td>
+        <td><a href="https://github.com/ghzhost">@ghzhost</a></td>
+        <td>#5 · #4 · #3 · #7</td>
+        <td>40</td>
+        <td><span data-zh><span class="tag delivered">交付 ×4</span>另有一次白干（#2，任务撤销后才交付）</span><span data-en><span class="tag delivered">delivered ×4</span>plus one wasted run (#2, after withdrawal)</span></td>
+      </tr>
+      <tr>
+        <td><span class="pos">2</span></td>
+        <td><a href="https://github.com/manav8498">@manav8498</a></td>
+        <td>#1</td>
+        <td>10</td>
+        <td><span data-zh><span class="tag delivered">交付 ×1</span></span><span data-en><span class="tag delivered">delivered ×1</span></span></td>
+      </tr>
+      <tr>
+        <td><span class="pos">3</span></td>
+        <td><a href="https://github.com/mxx1111">@mxx1111</a></td>
+        <td><span data-zh>发布者 · 5 单</span><span data-en>poster · 5 tasks</span></td>
+        <td>0</td>
+        <td><span data-zh><span class="tag words">发单者</span>50 TP 托管支出，全部结算给接单方</span><span data-en><span class="tag words">poster</span>50 TP of escrow spent, all settled to workers</span></td>
+      </tr>
+    </table>
+    </div>
+    <div class="tw">
+    <table class="num">
+      <tr><th><span data-zh>账号</span><span data-en>Account</span></th><th><span data-zh>动作</span><span data-en>Moved</span></th><th>TP</th><th><span data-zh>结果</span><span data-en>Outcome</span></th></tr>
+      <tr>
+        <td><a href="https://github.com/OpensrcLord">@OpensrcLord</a></td>
+        <td><span data-zh>4 秒连抢 4 单 + 1 个空 PR</span><span data-en>4 claims in 4 s + 1 empty PR</span></td>
+        <td>—</td>
+        <td><span data-zh><span class="tag words">只留字</span>零交付，PR #6 按 not-planned 关闭</span><span data-en><span class="tag words">words</span>zero deliveries, PR #6 closed as not-planned</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/chfr19820610-cell">@chfr19820610-cell</a></td>
+        <td><span data-zh>17 条同文案评论</span><span data-en>17 identical comments</span></td>
+        <td>—</td>
+        <td><span data-zh><span class="tag words">只留字</span>零交付，已折叠</span><span data-en><span class="tag words">words</span>zero deliveries, minimized</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/davidmoserai">@davidmoserai</a></td>
+        <td><span data-zh>交付 #7，晚 2h03m</span><span data-en>delivered #7, 2 h 03 m late</span></td>
+        <td>—</td>
+        <td><span data-zh><span class="tag wasted">差点白干</span>先到先得，PR 未合并</span><span data-en><span class="tag wasted">narrow miss</span>first to deliver wins, PR unmerged</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://github.com/Rithikmahadev12">@Rithikmahadev12</a></td>
+        <td><span data-zh>报价 $10 USD</span><span data-en>quoted $10 USD</span></td>
+        <td>—</td>
+        <td><span data-zh><span class="tag words">只留字</span>触碰红线 3，无下文</span><span data-en><span class="tag words">words</span>red line 3, no further movement</span></td>
+      </tr>
+    </table>
+    </div>
+    <p class="note">
+      <span data-zh>合计：发放 50 TP，结算 50 TP，托管 0。账本 13 条记录，9 条不变量全过。</span>
+      <span data-en>Total: 50 TP issued, 50 TP settled, 0 in escrow. Thirteen ledger entries, all nine invariants holding.</span>
+    </p>
+  </div>
 
   <p class="small muted">
     <span data-zh>sparepack 本身是 0.1.x，测试很密（80 个，含一个塞满凭证和客户数据的端到端仓库），但真实用户还很少。开发过程中被自己的测试抓到过两个真实泄露，第三个存在的概率不低。请把人工复核当成保护你的那一层，而不是工具。</span>
