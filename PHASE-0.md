@@ -34,6 +34,27 @@ The third question is the real experiment. The whole incentive design in [GOVERN
 5. Merge, append a `settle` entry, run `npm run ledger:write`, write a line in the worker's profile.
 6. Afterwards, ask them why they took it. Write the answer down.
 
+## Unplanned finding: the points only run in one direction
+
+Recorded 2026-08-18, before the third question has been answered, because it does not depend
+on the answer.
+
+After five settled tasks the balances are `ghzhost 40`, `manav8498 10`, `mxx1111 0`. Posting a
+task escrows points immediately, so the maintainer — the only account that has ever posted a
+task — can no longer post one. The no-quota routes exist so that having no points does not lock
+you out, but every one of them (`review`, `redact-audit`, `spec`, `arbitrate`) attaches to a
+task somebody else has already posted, and there are none. The loop closes on itself.
+
+The escrow rule was written against the failure mode of people posting endlessly and never
+delivering. What happened is the mirror image: **points accumulated with the people who only
+deliver and ran out for the only person who was asking.** All five tasks came from one account.
+
+This does not invalidate the escrow rule — it did prevent the failure it was aimed at. It says
+the rule is incomplete, and that a board needs a way to seed requesters that does not depend on
+those requesters first having worked. Left open deliberately rather than patched, because the
+right fix depends on whether contributors turn out to want anything done at all — which is now
+[asked directly](https://github.com/mxx1111/spare-cycles/issues/8).
+
 ## Exit criteria
 
 **Proceed to Phase 1** if tasks get claimed within a few days and the deliveries are usable without a rewrite.
@@ -79,6 +100,22 @@ The third question is the real experiment. The whole incentive design in [GOVERN
 4. 老实审阅。不够好就直说。一个每份交付都客气地合并掉的 Phase 0 什么都学不到。
 5. 合并，追加一条 `settle`，跑 `npm run ledger:write`，在接单者的档案里写一行。
 6. 事后问他为什么接这个活，把回答记下来。
+
+## 计划外的发现：积分只朝一个方向流动
+
+记于 2026-08-18，在第三个问题得到回答之前，因为这一条不依赖那个答案。
+
+五个任务结算完，余额是 `ghzhost 40`、`manav8498 10`、`mxx1111 0`。发任务会立即托管积分，
+于是唯一发过任务的账号——维护者——再也发不出任务。no-quota 通道的存在本来就是为了让「没积分」
+不等于「被锁在外面」，但它们四个（`review`、`redact-audit`、`spec`、`arbitrate`）全都寄生在
+别人已发布的任务上，而现在一个都没有。环闭合在自己身上。
+
+托管规则是冲着「只发不接」这个失败模式写的。实际发生的是它的镜像：**积分堆在了只交付的人手里，
+而唯一在求助的人耗光了。** 五个任务全部来自同一个账号。
+
+这不能说明托管规则错了——它确实防住了它要防的东西。它说明规则不完整：一个板子需要某种给发单方
+播种的机制，而这个机制不能以「发单方得先干过活」为前提。这里刻意留着不打补丁，因为正确的修法取决于
+贡献者到底想不想让人帮他做事——这一点现在[已经直接问了](https://github.com/mxx1111/spare-cycles/issues/8)。
 
 ## 退出条件
 

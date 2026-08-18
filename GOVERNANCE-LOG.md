@@ -48,3 +48,22 @@ spree, was closed as not-planned. It was a PR-shaped body claiming to implement 
 delivered by `ghzhost` and settled — with no pull request behind it. Found while verifying the
 agent-watch API example in the README against the real board: the query returned an "open bounty"
 that the ledger said was settled. The ledger was right.
+
+---
+
+**2026-08-18 — duplicate delivery, second occurrence.** `macakii327-prog` opened
+[mxx1111/wechat-mp-writer-skill-mxx#3](https://github.com/mxx1111/wechat-mp-writer-skill-mxx/pull/3)
+at 11:04, 210 lines solving task #3. The task was settled with `ghzhost` at 11:14 — ten minutes
+later. The account never commented on the issue and never claimed it; it forked, worked, and
+delivered.
+
+No sanction, and no fault on their side. The claim rule had been posted to that issue at 10:30,
+thirty-four minutes earlier, which is not a window anyone could reasonably be expected to catch.
+The PR was closed as superseded with a full explanation of the timeline and an explicit statement
+that no consolation TP exists — points go to the assignee, are not transferable, and the
+maintainer balance is zero.
+
+This is the same failure as task #7 on the same day. Two occurrences means the claim rule was
+necessary but is not sufficient while it lives only in prose: nothing on an open issue mechanically
+signals "taken". That is the strongest argument yet for the Phase 1 bot, and it now has a cost
+attached — two contributors' evenings.
