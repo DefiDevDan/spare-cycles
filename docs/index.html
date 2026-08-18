@@ -386,8 +386,10 @@
       <div class="n">03</div>
       <b><span data-zh>账本谁都能从零重算</span><span data-en>Anyone can recompute the ledger</span></b>
       <p>
-        <span data-zh>17 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
-        <span data-en>17 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
+        <!-- stats:summary -->
+<span data-zh>17 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
+<span data-en>17 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
+<!-- /stats:summary -->
       </p>
     </div>
     <div>
@@ -607,6 +609,7 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
     <span data-zh>任何积分系统最后都会碰到同一个问题：凭什么信运营方报的余额。这里的答案是把余额变成一个<strong>可复现的计算结果</strong>而不是一句声明。</span>
     <span data-en>Every points system eventually runs into the same question: why believe the operator's numbers. The answer here is to make balances <strong>a reproducible computation</strong> rather than an assertion.</span>
   </p>
+<!-- stats:terminal -->
 <pre><span class="c">$ git clone https://github.com/mxx1111/spare-cycles &amp;&amp; cd spare-cycles</span>
 $ node ledger/verify.mjs
 
@@ -616,12 +619,13 @@ Balances:
   ghzhost                     40 TP
   manav8498                   10 TP
   mxx1111                      0 TP
-
+  ———————————————————————— —————
   in balances                 50 TP
   in escrow                   50 TP
   total issued               100 TP
 
 <span class="g">All invariants hold.</span></pre>
+<!-- /stats:terminal -->
   <p>
     <span data-zh><code>ledger.jsonl</code> 只追加：不改行、不删行、不调顺序，更正一律是新增的冲正条目。<code>balances.json</code> 是派生产物，两者对不上时以重算为准。校验器检查九条不变量，其中余额非负和托管非负是<strong>逐条增量检查</strong>的——中途变成负数、后面又补回来的历史一样判无效。</span>
     <span data-en><code>ledger.jsonl</code> is append-only: never edit a line, never delete one, never reorder. Corrections are new compensating entries. <code>balances.json</code> is derived output, and if the two disagree the recomputation wins. The verifier checks nine invariants, and the two non-negativity ones are checked <strong>incrementally</strong> — a history that dips negative in the middle and recovers is still invalid.</span>
@@ -699,7 +703,9 @@ const TYPES = {
   </p>
   <div class="stat-row">
     <div class="stat"><span class="n">2h48m</span><div class="k"><span data-zh>首个交付</span><span data-en>to first delivery</span></div></div>
-    <div class="stat"><span class="n">5 / 5</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div></div>
+    <div class="stat"><!-- stats:settled -->
+<span class="n">5</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div>
+<!-- /stats:settled --></div></div>
     <div class="stat"><span class="n">0</span><div class="k"><span data-zh>业务代码外泄</span><span data-en>lines of business logic exposed</span></div></div>
   </div>
   <p>
@@ -869,7 +875,8 @@ const TYPES = {
     <span data-en>The balances are exactly what <code>npm run ledger</code> recomputes — not a table the maintainer fills in. Delivered, wasted, words-only: all three ways of showing up are listed, because the latter two are part of the board actually running.</span>
   </p>
   <div class="lb">
-    <div class="tw">
+    <!-- stats:balances -->
+<div class="tw">
     <table class="num">
       <tr><th><span data-zh>#</span><span data-en>#</span></th><th><span data-zh>账号</span><span data-en>Account</span></th><th><span data-zh>任务</span><span data-en>Tasks</span></th><th>TP</th><th><span data-zh>状态</span><span data-en>Standing</span></th></tr>
       <tr>
@@ -895,6 +902,7 @@ const TYPES = {
       </tr>
     </table>
     </div>
+<!-- /stats:balances -->
     <div class="tw">
     <table class="num">
       <tr><th><span data-zh>账号</span><span data-en>Account</span></th><th><span data-zh>动作</span><span data-en>Moved</span></th><th>TP</th><th><span data-zh>结果</span><span data-en>Outcome</span></th></tr>
@@ -930,10 +938,12 @@ const TYPES = {
       </tr>
     </table>
     </div>
-    <p class="note">
+    <!-- stats:totals -->
+<p class="note">
       <span data-zh>合计：发放 100 TP，结算 50 TP，托管中 50（3 个开放任务）。账本 17 条记录，9 条不变量全过。发放额从 50 涨到 100，是维护者为给板子供资发放的一笔——<a href="https://github.com/mxx1111/spare-cycles/issues/12">规则改动</a>与<a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">全过程</a>都公开记录，那笔钱当天全部进了托管，维护者余额仍是 0。</span>
-      <span data-en>Total: 100 TP issued, 50 TP settled, 50 in escrow across three open tasks. Seventeen ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
+      <span data-en>Total: 100 TP issued, 50 TP settled, 50 in escrow across 3 open tasks. 17 ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
     </p>
+<!-- /stats:totals -->
   </div>
 
   <p class="small muted">

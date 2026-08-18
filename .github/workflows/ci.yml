@@ -27,6 +27,9 @@ jobs:
       - name: Ledger invariants
         run: npm run ledger
 
+      - name: Ledger stats check
+        run: npm run stats -- --check
+
       # balances.json is derived from ledger.jsonl. Recomputing it must be a no-op; if the
       # file has been hand-edited, or an entry was changed after the fact, the diff shows up
       # here. The ledger is append-only precisely so this check is meaningful.
