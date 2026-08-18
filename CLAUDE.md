@@ -15,8 +15,8 @@ make a written rule impossible to break, so read the relevant doc before changin
 **`sparepack` lives in its own repository now**: [mxx1111/sparepack](https://github.com/mxx1111/sparepack),
 published to npm. It used to be `packages/sparepack/` here; it was split out with `git subtree split`
 (history preserved) because the tool stands on its own while the task board is still unproven. Do not
-re-add it here. Docs in this repo point users at `npx sparepack@beta`, so whoever publishes that
-package must keep the `beta` dist-tag current, not just `latest`.
+re-add it here. That repo releases itself from a version tag via GitHub Actions and npm trusted
+publishing; its `RELEASE.md` is the reference, and nothing about publishing it belongs in this repo.
 
 The project is in **Phase 0**: five real tasks run by hand to find out whether anyone claims them.
 No automation, no bot, no CI workflows (`.github/` has templates only). Do not build the bot,

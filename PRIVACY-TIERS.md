@@ -63,7 +63,7 @@ The scanner is lexical: it finds patterns, not meaning. A business rule spelled 
 `sparepack` works today and lives in its own repository: [mxx1111/sparepack](https://github.com/mxx1111/sparepack), published as [`sparepack` on npm](https://www.npmjs.com/package/sparepack).
 
 ```bash
-npx sparepack@beta init
+npx sparepack init
 ```
 
 It does not depend on this project — you do not need a task board to want help with your code without handing over the codebase.
@@ -192,7 +192,7 @@ findings 永远不含完整匹配内容——一份会泄露它所发现之物�
 `sparepack` 现在就能用，在它自己的仓库里：[mxx1111/sparepack](https://github.com/mxx1111/sparepack)，已发布到 npm：[`sparepack`](https://www.npmjs.com/package/sparepack)。
 
 ```bash
-npx sparepack@beta init
+npx sparepack init
 ```
 
 它不依赖本项目——想让人帮你改代码又不想交出整个代码库，这件事本身不需要一个任务板。
