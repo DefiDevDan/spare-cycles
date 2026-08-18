@@ -386,8 +386,8 @@
       <div class="n">03</div>
       <b><span data-zh>账本谁都能从零重算</span><span data-en>Anyone can recompute the ledger</span></b>
       <p>
-        <span data-zh>13 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
-        <span data-en>13 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
+        <span data-zh>17 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
+        <span data-en>17 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
       </p>
     </div>
     <div>
@@ -610,7 +610,7 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
 <pre><span class="c">$ git clone https://github.com/mxx1111/spare-cycles &amp;&amp; cd spare-cycles</span>
 $ node ledger/verify.mjs
 
-ledger.jsonl — 13 entries
+ledger.jsonl — 17 entries
 
 Balances:
   ghzhost                     40 TP
@@ -618,8 +618,8 @@ Balances:
   mxx1111                      0 TP
 
   in balances                 50 TP
-  in escrow                    0 TP
-  total issued                50 TP
+  in escrow                   50 TP
+  total issued               100 TP
 
 <span class="g">All invariants hold.</span></pre>
   <p>
@@ -931,8 +931,8 @@ const TYPES = {
     </table>
     </div>
     <p class="note">
-      <span data-zh>合计：发放 50 TP，结算 50 TP，托管 0。账本 13 条记录，9 条不变量全过。</span>
-      <span data-en>Total: 50 TP issued, 50 TP settled, 0 in escrow. Thirteen ledger entries, all nine invariants holding.</span>
+      <span data-zh>合计：发放 100 TP，结算 50 TP，托管中 50（3 个开放任务）。账本 17 条记录，9 条不变量全过。发放额从 50 涨到 100，是维护者为给板子供资发放的一笔——<a href="https://github.com/mxx1111/spare-cycles/issues/12">规则改动</a>与<a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">全过程</a>都公开记录，那笔钱当天全部进了托管，维护者余额仍是 0。</span>
+      <span data-en>Total: 100 TP issued, 50 TP settled, 50 in escrow across three open tasks. Seventeen ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
     </p>
   </div>
 

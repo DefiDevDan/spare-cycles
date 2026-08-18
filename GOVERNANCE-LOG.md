@@ -67,3 +67,39 @@ This is the same failure as task #7 on the same day. Two occurrences means the c
 necessary but is not sufficient while it lives only in prose: nothing on an open issue mechanically
 signals "taken". That is the strongest argument yet for the Phase 1 bot, and it now has a cost
 attached — two contributors' evenings.
+
+---
+
+**2026-08-18 — maintainer issued 50 TP to fund the board, and amended the rule that forbade it.**
+
+The board reached zero open tasks with the maintainer at 0 TP. Posting escrows points immediately,
+and all four no-quota earning routes (`review`, `redact-audit`, `spec`, `arbitrate`) attach to a
+task somebody else has already posted — of which there were none. Nobody but the maintainer had
+ever posted a task, so the board could not restart itself.
+
+GOVERNANCE.md previously read *"Maintainers cannot: create TP out of nothing … or grant themselves
+TP."* That clause was amended rather than ignored. The rule-change procedure requires 7 days of
+open discussion only for changes to **TP pricing or red lines**; issuance rules are neither, so a
+`governance` issue was opened instead ([#12](https://github.com/mxx1111/spare-cycles/issues/12)).
+
+The amendment is deliberately narrow: issuance is permitted only to fund tasks other people get
+paid for, only while fewer than three accounts have ever posted a task, 50 TP at a time, never
+while the maintainer holds an unescrowed balance, and every unit must reach escrow within 24 hours.
+The distinction it rests on is that TP cannot be transferred or cashed out, so points passing
+through the maintainer's balance into escrow buy the maintainer nothing.
+
+What actually happened, in the ledger:
+
+| seq | type | amount | detail |
+|---|---|---|---|
+| 14 | `adjust` | +50 | issued to `mxx1111`, `by` mxx1111, reason cites the clause |
+| 15 | `escrow` | −30 | task [#9](https://github.com/mxx1111/spare-cycles/issues/9), sparepack scaffold emission (M) |
+| 16 | `escrow` | −10 | task [#10](https://github.com/mxx1111/spare-cycles/issues/10), sparepack path remapping (S) |
+| 17 | `escrow` | −10 | task [#11](https://github.com/mxx1111/spare-cycles/issues/11), generate landing-page stats from the ledger (S) |
+
+Maintainer balance after: **0 TP**. Total issued rose from 50 to 100, which `npm run ledger`
+reports on every run — the inflation is visible by construction rather than by disclosure.
+
+This is the second maintainer privilege exercised on this board, after the one-time timestamp
+correction earlier the same day. Both are written down here. A third should prompt someone to ask
+whether the rules are being written around the maintainer.

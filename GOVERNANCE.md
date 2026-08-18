@@ -116,7 +116,31 @@ Currently one: [@mxx1111](https://github.com/mxx1111). This is a bootstrapping s
 
 Maintainers can: arbitrate, apply sanctions, correct ledger errors (with a recorded reason), and merge changes to this repository.
 
-Maintainers cannot: create TP out of nothing, alter historical ledger entries, or grant themselves TP. Ledger corrections are append-only compensating entries, never edits. The audit job recomputes every balance from the full history and will surface any edit.
+Maintainers cannot: issue TP into their own balance for their own use, alter historical ledger entries, or settle a task to themselves as both requester and worker. Ledger corrections are append-only compensating entries, never edits. The audit job recomputes every balance from the full history and will surface any edit.
+
+### The one exception: funding the board
+
+Until **three separate accounts have each posted at least one task**, the maintainer may issue
+TP for the single purpose of funding tasks that other people get paid for.
+
+The distinction this rests on: TP cannot be transferred, sold, or cashed out, so points that pass
+through the maintainer's balance and into escrow buy the maintainer nothing. They leave for a
+worker's balance and stay there. Issuing them is inflation, not self-dealing — and inflation is
+already visible, because `total_issued` is recomputed from the full history on every run of
+`npm run ledger`.
+
+Conditions, all of them:
+
+- Recorded as an `adjust` naming the authorizing maintainer in `by` and citing this clause in `reason`
+- Escrowed on a posted task within 24 hours, or reversed with a compensating entry
+- Listed in [GOVERNANCE-LOG.md](GOVERNANCE-LOG.md) with the amount and what it funded
+- 50 TP at a time, and never while the maintainer already holds an unescrowed balance
+
+**None of this is machine-enforced.** `verify.mjs` will accept any `adjust` that balances; what
+stops abuse is that every issuance is a line in a public append-only file with the maintainer's
+name on it. This clause exists because the board's first month produced the opposite of the
+expected failure: points accumulated with people who only deliver, and ran out for the only
+person posting work. It expires on its own the moment a third requester appears.
 
 **This rule has been broken once**, on 2026-08-18, and the exception is documented rather than hidden. The `ts` field on entries 1–8 had been hand-written as invented values instead of observed event times; the last of them was several hours in the future and had deadlocked settlement. All nine were rewritten in one pass with real times pulled from the GitHub API. No amount, type, account, or balance changed — only timestamps that were wrong to begin with. The reasoning is in the header of `ledger.jsonl` and in [GOVERNANCE-LOG.md](GOVERNANCE-LOG.md), and `verify.mjs` now rejects any future-dated entry, which would have caught it on the first line. If this needs doing again, it needs a `governance` issue and seven days of discussion like any other rule change.
 
@@ -239,7 +263,22 @@ Open an issue with the `governance` label. Changes affecting TP pricing or red l
 
 维护者可以：仲裁、执行处分、更正账本错误（须记录理由）、合并本仓库的变更。
 
-维护者不可以：凭空创造 TP、修改历史账本条目、给自己发 TP。账本更正一律是只追加的冲正条目，绝不是编辑。审计任务会从完整历史重算每一个余额，任何编辑都会被翻出来。
+维护者不可以：把 TP 发进自己余额供自己使用、修改历史账本条目、把任务结算给自己（同时当发单方和接单方）。账本更正一律是只追加的冲正条目，绝不是编辑。审计任务会从完整历史重算每一个余额，任何编辑都会被翻出来。
+
+### 唯一的例外：给板子供血
+
+在**三个不同账号各自至少发过一个任务**之前，维护者可以发放 TP，且只能用于一个目的：给别人能拿到报酬的任务供资。
+
+这一条依赖的区分是：TP 不可转让、不可交易、不能提现，所以经维护者余额进入托管的积分，对维护者本人一分钱价值都没有。它们会离开他的余额、进入接单者的余额，然后留在那儿。发放它是通胀，不是自肥——而通胀本来就是可见的，因为 `total_issued` 每次跑 `npm run ledger` 都会从完整历史重算一遍。
+
+条件，缺一不可：
+
+- 记为 `adjust`，`by` 写明授权的维护者，`reason` 里引用本条款
+- 24 小时内必须托管到已发布的任务上，否则用冲正条目撤回
+- 在 [GOVERNANCE-LOG.md](GOVERNANCE-LOG.md) 里列出金额和它资助了什么
+- 一次 50 TP，且维护者手上还有未托管余额时不得再发
+
+**以上没有任何一条是机器强制的。** `verify.mjs` 会接受任何能平账的 `adjust`；真正防滥用的是每一次发放都是一个只追加的公开文件里、署着维护者名字的一行。这条例外之所以存在，是因为板子的第一个月出现的是和预期相反的失败：积分堆在了只交付的人手里，而唯一在发任务的人耗光了。第三个发单者一出现，这条自动失效。
 
 **这条规则被破过一次**，2026-08-18，而这次例外是写下来的，不是藏起来的。前 8 条的 `ts` 当初是手写的编造值而不是实际观测到的事件时间，其中最后一条落在几小时之后的未来，把结算卡死了。九条时间戳一次性用 GitHub API 拉的真实时间重写。金额、类型、账户、余额一律未动，改的只是本来就是错的那些时间。理由写在 `ledger.jsonl` 的文件头和 [GOVERNANCE-LOG.md](GOVERNANCE-LOG.md) 里，`verify.mjs` 现在会拒绝任何未来时间的条目——那条不变量本来在第一行就能拦住它。如果还需要再来一次，就得走 `governance` issue 和七天讨论，跟任何其他规则变更一样。
 
