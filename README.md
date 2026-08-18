@@ -67,6 +67,31 @@ You can still earn TP with work that does not burn any:
 | Write acceptance tests for someone's task spec | 15 |
 | Arbitrate a dispute (requires 5+ deliveries) | 10 |
 
+## Let your agent watch the board — and press the button yourself
+
+Most people here develop with an AI agent, and the board is built for that. The division of
+labour is precise: **the agent may watch, draft, and do the work; the decision to claim and
+the review before delivery are yours.** An unattended agent that auto-claims is
+[red line 4](COMPLIANCE.md) — claims voided, 30-day suspension — and the first thing this
+board attracted was exactly that, so the rule is enforced from experience, not caution.
+
+Watching requires nothing from us — the issues *are* the API:
+
+```bash
+gh api 'repos/mxx1111/spare-cycles/issues?labels=bounty&state=open' \
+  --jq '.[] | {title, url: .html_url, labels: [.labels[].name]}'
+```
+
+If you run OpenClaw or a similar scheduler-equipped agent, paste it this and you are done:
+
+> Every 2 hours, check https://github.com/mxx1111/spare-cycles/issues?q=is%3Aopen+label%3Abounty
+> for tasks I have not seen yet. If one matches my skills (TypeScript/Node), message me the
+> title, tier, and link. Never comment, never `/claim` — claiming is my decision, not yours.
+
+That last sentence is load-bearing. What you get is "tasks find me, I only decide" — which is
+all the automation that survives contact with a board where the scarce thing is tasks, not
+workers.
+
 ## Status
 
 Phase 0. Running tasks by hand to find out whether anyone actually shows up before building automation for it. Come break it.

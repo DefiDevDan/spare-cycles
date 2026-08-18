@@ -69,6 +69,29 @@ P1 是有意思的那个。`sparepack` 这个 CLI 从你的私有仓库里切出
 | 帮别人写任务的验收测试 | 15 |
 | 争议仲裁（需 5 次以上交付记录） | 10 |
 
+## 让 agent 盯板，你来拍板
+
+这里的多数人本来就是用 AI agent 开发的，板子也是按这个现实设计的。分工划得很清楚：**agent
+可以盯板、起草、干活；决定接单和交付前的审阅必须是你。** 无人值守的自动接单是
+[红线 4](COMPLIANCE.md)——接单作废、停用 30 天——而且这个板子引来的第一批访客就是这种
+bot，所以这条规则来自经验，不是来自谨慎。
+
+盯板不需要我们提供任何东西——issue 本身就是 API：
+
+```bash
+gh api 'repos/mxx1111/spare-cycles/issues?labels=bounty&state=open' \
+  --jq '.[] | {title, url: .html_url, labels: [.labels[].name]}'
+```
+
+如果你在用 OpenClaw 这类带定时任务的 agent，把这段原样粘给它就完事了：
+
+> 每 2 小时看一次 https://github.com/mxx1111/spare-cycles/issues?q=is%3Aopen+label%3Abounty ，
+> 找我没见过的新任务。有匹配我技能（TypeScript/Node）的，把标题、档位和链接发给我。
+> 永远不要评论、不要 `/claim`——接不接是我的决定，不是你的。
+
+最后一句是承重的。你得到的体验是「任务自己找上门，我只做决定」——在一个稀缺的是任务而
+不是工人的板子上，能活下来的自动化就到这条线为止。
+
 ## 当前状态
 
 Phase 0。先手工跑任务，看看到底有没有人来，再决定要不要为它写自动化。欢迎来砸场子。

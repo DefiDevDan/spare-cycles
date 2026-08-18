@@ -26,6 +26,10 @@
     --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", "Source Han Serif SC", serif;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    /* One width for everything: every block shares the same left and right
+       edge. Dial this number down if lines start feeling too long to track. */
+    --page: 1240px;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -69,8 +73,8 @@
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
-  .wide { max-width: 940px; }
+  .wrap { max-width: var(--page); margin: 0 auto; padding: 0 24px; }
+  .wide { max-width: var(--page); }
 
   /* --- language switching --- */
   [data-en] { display: none; }
@@ -99,6 +103,12 @@
     padding: 5px 12px; line-height: 1; white-space: nowrap; min-width: 52px;
   }
   .toggle:hover { color: var(--ink); border-color: var(--ink-faint); }
+  @media (max-width: 400px) {
+    .wrap { padding: 0 18px; }
+    nav .wrap { gap: 12px; }
+    nav a.link { font-size: 13.5px; }
+    nav a.link.opt { display: none; }
+  }
 
   /* --- hero --- */
   header { padding: 92px 0 72px; }
@@ -110,7 +120,7 @@
     font-weight: 600;
     margin: 0 0 24px;
   }
-  .lede { font-size: clamp(18px, 2.4vw, 21px); color: var(--ink-soft); margin: 0 0 36px; max-width: 34em; }
+  .lede { font-size: clamp(18px, 2.4vw, 22px); color: var(--ink-soft); margin: 0 0 36px; }
   .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
@@ -124,6 +134,16 @@
 
   /* --- sections --- */
   section { padding: 56px 0; border-top: 1px solid var(--rule); scroll-margin-top: 72px; }
+  @media (min-width: 1040px) {
+    /* A longer line needs a larger glyph and a taller line to stay trackable. */
+    body { font-size: 18.5px; line-height: 1.72; }
+    .wrap { padding: 0 32px; }
+    header { padding: 120px 0 88px; }
+    section { padding: 80px 0; }
+    /* Code lines stay short so they survive a 390px phone; on a wide column
+       the way to fill the space is a larger glyph, not a longer line. */
+    pre { font-size: 15px; padding: 22px 24px; }
+  }
   h2, h3 { scroll-margin-top: 76px; }
   h2 {
     font-family: var(--serif); font-size: clamp(25px, 3.6vw, 33px);
@@ -163,6 +183,8 @@
   pre .c { color: #8A8577; }
   pre .g { color: #8FBF9F; }
   pre .r { color: #E08A6B; }
+  pre .k { color: #9CBFDB; }
+  pre .s { color: #D6C48A; }
   code:not(pre code) {
     font-family: var(--mono); font-size: .88em;
     background: var(--bg-raised); border: 1px solid var(--rule);
@@ -174,11 +196,19 @@
   .ba > div { min-width: 0; }
   .ba h4 { margin: 0 0 8px; font-size: 12.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-faint); font-weight: 650; }
   .ba pre { margin: 0; height: 100%; }
-  @media (max-width: 700px) {
+  @media (max-width: 1040px) {
     .ba { grid-template-columns: 1fr; }
     .ba pre { height: auto; }
     .ba > div + div h4 { margin-top: 8px; }
   }
+
+  /* --- highlight cards --- */
+  .hl { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin: 26px 0; }
+  .hl > div { background: var(--bg); padding: 20px 22px; }
+  .hl .n { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 650; }
+  .hl b { display: block; font-size: 16.5px; margin: 4px 0 8px; letter-spacing: -.005em; }
+  .hl p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+  @media (max-width: 640px) { .hl { grid-template-columns: 1fr; } }
 
   /* --- tiers --- */
   .tiers { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; margin: 24px 0; }
@@ -188,6 +218,16 @@
   .tier .d b { display: block; margin-bottom: 3px; }
   .tier .d span { color: var(--ink-soft); }
   @media (max-width: 560px) { .tier { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* --- tables --- */
+  .tw { overflow-x: auto; margin: 22px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-faint); font-weight: 650; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td code { white-space: nowrap; }
+  table.num td:last-child, table.num th:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  td .why { display: block; color: var(--ink-soft); font-size: 14.5px; margin-top: 2px; }
 
   /* --- steps --- */
   ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 24px 0; }
@@ -206,6 +246,22 @@
   .stat .n { font-family: var(--serif); font-size: 27px; font-weight: 600; letter-spacing: -.01em; display: block; }
   .stat .k { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
 
+  /* --- faq --- */
+  .faq { border-top: 1px solid var(--rule); margin: 26px 0 0; }
+  details { border-bottom: 1px solid var(--rule); }
+  details summary {
+    cursor: pointer; padding: 15px 0; font-weight: 600; font-size: 16.5px;
+    list-style: none; display: flex; gap: 12px; align-items: baseline;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "+"; color: var(--accent); font-family: var(--mono); font-weight: 400; flex: none; }
+  details[open] summary::before { content: "\2013"; }
+  details summary:hover { color: var(--accent); }
+  .a { padding: 0 0 18px 24px; color: var(--ink-soft); font-size: 15.5px; }
+  .a p { margin: 0 0 10px; }
+  .a p:last-child { margin: 0; }
+  .a pre { margin: 12px 0 0; }
+
   ul.plain { padding-left: 20px; margin: 16px 0; }
   ul.plain li { margin-bottom: 8px; }
 
@@ -220,7 +276,7 @@
   <div class="wrap wide">
     <a class="brand" href="#top">Spare<span>Cycles</span></a>
     <div class="spacer"></div>
-    <a class="link" href="https://github.com/mxx1111/sparepack">sparepack</a>
+    <a class="link opt" href="https://github.com/mxx1111/sparepack">sparepack</a>
     <a class="link" href="https://github.com/mxx1111/spare-cycles">GitHub</a>
     <button class="toggle" id="lang" type="button">EN</button>
   </div>
@@ -270,7 +326,49 @@
   </p>
 </section>
 
-<section>
+<section id="why">
+  <h2><span data-zh>四件可以自己动手核实的事</span><span data-en>Four things you can check yourself</span></h2>
+  <p>
+    <span data-zh>下面每一条都不是形容词，是一条能跑的命令或者一行能读的代码。这也是唯一值得写在落地页上的那种卖点。</span>
+    <span data-en>None of the following is an adjective. Each one is a command you can run or a line you can read — the only kind of claim worth putting on a landing page.</span>
+  </p>
+  <div class="hl">
+    <div>
+      <div class="n">01</div>
+      <b><span data-zh>一个真的工具，不是一句「注意隐私」</span><span data-en>An actual tool, not a reminder to be careful</span></b>
+      <p>
+        <span data-zh>大多数隐私建议止步于建议。sparepack 是 <code>npm install</code> 装得到的命令行工具：白名单制、解析后重建、写盘前强制人工过目。80 个测试，其中一个端到端跑一个塞满凭证和客户记录的仓库。</span>
+        <span data-en>Most privacy advice stops at advice. sparepack is a CLI you can <code>npm install</code>: allowlist-only, parse-and-rebuild, mandatory human review before anything is written. 80 tests, one of them an end-to-end run against a repo seeded with credentials and customer records.</span>
+      </p>
+    </div>
+    <div>
+      <div class="n">02</div>
+      <b><span data-zh>红线写成数据结构，不是写成承诺</span><span data-en>Red lines as data structures, not promises</span></b>
+      <p>
+        <span data-zh>「积分不可转让」在这里不是一句保证。账本 schema 里根本不存在 user→user 的转账类型，校验器碰到就当篡改，直接非零退出。想违规都没有地方放。</span>
+        <span data-en>"Points are not transferable" is not a pledge here. The ledger schema has no user-to-user transfer type at all; the verifier treats one as tampering and exits non-zero. There is nowhere to put the violation.</span>
+      </p>
+    </div>
+    <div>
+      <div class="n">03</div>
+      <b><span data-zh>账本谁都能从零重算</span><span data-en>Anyone can recompute the ledger</span></b>
+      <p>
+        <span data-zh>13 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
+        <span data-en>13 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
+      </p>
+    </div>
+    <div>
+      <div class="n">04</div>
+      <b><span data-zh>不灵的地方也写在明面上</span><span data-en>The gaps are written down too</span></b>
+      <p>
+        <span data-zh>合规执行表里有两行明确标着「未强制」。账本文件头记着一次时间戳更正的完整经过。被折叠的 19 条垃圾评论逐条列在治理日志里。这不是为了显得诚实，是为了不让人读完文档以为保护比实际更多。</span>
+        <span data-en>Two rows of the enforcement table say "not enforced" in as many words. The ledger header documents a one-time timestamp correction in full. All 19 minimized spam comments are itemised in the governance log. Not for the look of candour — so nobody finishes the docs assuming more protection than exists.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="sparepack">
   <h2><span data-zh>sparepack 做的事</span><span data-en>What sparepack does</span></h2>
   <p>
     <span data-zh>你有个真实的 bug，任务不大，也有人愿意修。但那个文件里全是你的定价规则、客户数据，还有三年前谁留下的一个硬编码密钥。于是你不问了，bug 就一直在那。</span>
@@ -316,30 +414,76 @@ npx sparepack init     <span class="c"># <span data-zh>生成带注释的配置<
 npx sparepack pack     <span class="c"># <span data-zh>构建、扫描、给你过目、再落盘</span><span data-en>build, scan, show you, then write</span></span>
 npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，独立复检</span><span data-en>re-derive from disk, check again</span></span></pre>
 
+  <h3><span data-zh>配置长这样</span><span data-en>The config</span></h3>
+  <p class="tight">
+    <span data-zh>一份 <code>sparepack.yaml</code>，五个键，每个键决定一类文件怎么处理。</span>
+    <span data-en>One <code>sparepack.yaml</code>, five keys, each deciding how a class of file is handled.</span>
+  </p>
+<pre><span class="k">task</span>: <span class="s">"Stream large CSV imports instead of loading the whole file"</span>
+
+<span class="k">include</span>:                     <span class="c"># <span data-zh>逐字节原样发布</span><span data-en>published byte for byte</span></span>
+  - src/importer/types.ts
+
+<span class="k">interfaces</span>:                  <span class="c"># <span data-zh>留签名，函数体换成会抛错的桩</span><span data-en>signatures kept, bodies stubbed</span></span>
+  - src/importer/parser.ts
+
+<span class="k">tests</span>:                       <span class="c"># <span data-zh>这就是任务规约本身</span><span data-en>this is the specification</span></span>
+  - tests/importer/*.spec.ts
+
+<span class="k">fixtures</span>:                    <span class="c"># <span data-zh>真结构，假数据</span><span data-en>real structure, synthetic values</span></span>
+  data/orders.json: <span class="s">shape:5</span>
+
+<span class="k">redact</span>:                      <span class="c"># <span data-zh>扫描器不可能知道的自家名字</span><span data-en>names the scanner cannot know</span></span>
+  - pattern: <span class="s">"acme-corp|ACME"</span>
+    replace: <span class="s">"example-org"</span></pre>
+  <p class="small muted">
+    <span data-zh><code>shape:n</code> 读真实 JSON，按同样的键和嵌套重建一份假值，数组截到 n 条。<code>rows:n</code> 保留分隔文件的表头再造 n 行。生成是确定性的——同一份配置打两次包字节一致，所以两个包之间的 diff 一定意味着有东西真的变了。</span>
+    <span data-en><code>shape:n</code> reads the real JSON and rebuilds it with the same keys and nesting but fake values, capping arrays at n. <code>rows:n</code> keeps a delimited file's header and generates n fake rows. Generation is deterministic — packing twice gives byte-identical output, so a diff between two packs always means something real changed.</span>
+  </p>
+
   <h3><span data-zh>三条设计原则</span><span data-en>Three design rules</span></h3>
   <p class="tight">
-    <span data-zh><strong>白名单制。</strong>没有 <code>exclude</code> 键，以后也不会有。「除了这些全发出去」意味着一个没人想过的文件会被发布，泄露就是这么发生的。</span>
-    <span data-en><strong>Allowlist only.</strong> There is no <code>exclude</code> key and there will not be one. "Publish everything except…" means a file nobody thought about gets published, which is how leaks happen.</span>
+    <span data-zh><strong>白名单制。</strong>没有 <code>exclude</code> 键，以后也不会有。「除了这些全发出去」意味着一个没人想过的文件会被发布，泄露就是这么发生的。而且匹配不到任何文件的 pattern 直接报错——打错一个字不该悄悄少发东西。</span>
+    <span data-en><strong>Allowlist only.</strong> There is no <code>exclude</code> key and there will not be one. "Publish everything except…" means a file nobody thought about gets published, which is how leaks happen. A pattern matching nothing is an error rather than a silent no-op, because a typo should not quietly ship less than you meant.</span>
   </p>
   <p class="tight">
-    <span data-zh><strong>失败方向朝「少给」。</strong>接口剥离是解析后只输出能被明确识别为契约的东西，不是复制原文再删函数体。前者解析漏了等于 stub 缺东西，后者漏了等于源码泄露。</span>
-    <span data-en><strong>Failures point at giving less.</strong> Stripping parses your file and emits only what it positively recognised as contract. It does not copy the file and delete the bodies — under that design, a parser gap publishes your source.</span>
+    <span data-zh><strong>失败方向朝「少给」。</strong>接口剥离是解析后只输出能被明确识别为契约的东西，不是复制原文再删函数体。前者解析漏了等于 stub 缺东西、你会发现；后者漏了等于源码泄露。不支持的语言直接拒绝，绝不把一个 <code>.py</code> 原样放过还暗示它被剥离过了。</span>
+    <span data-en><strong>Failures point at giving less.</strong> Stripping parses your file and emits only what it positively recognised as contract. It does not copy the file and delete the bodies — under that design a parser gap publishes your source. Unsupported languages are refused outright, never passed through with the implication that they were stripped.</span>
   </p>
   <p>
     <span data-zh><strong>写盘在确认之后。</strong>整个包在内存里构建、扫描、打印清单，然后问你一句：这份文件清单你敢不敢公开贴出来。答案不是 <code>publish</code> 就一个字节都不写。</span>
     <span data-en><strong>Nothing is written before you have seen it.</strong> The pack is built in memory, scanned, and printed as a manifest. Then it asks: would you be comfortable posting this file list in public? Answer anything other than <code>publish</code> and no file is created.</span>
   </p>
 
+  <h3><span data-zh>扫描器查什么</span><span data-en>What the scanner checks</span></h3>
+  <p class="tight">
+    <span data-zh>各家厂商的 API key、私钥块、JWT、带真实密码的连接串、硬编码的密钥赋值、身份证与手机号、内网 IP 段、内部主机名。扫描发生在你的 redact 规则<strong>生效之后</strong>——扫之前只会报出你已经处理掉的东西，扫之后才能验证脱敏是否够用。</span>
+    <span data-en>API keys from the major providers, private key blocks, JWTs, connection strings carrying real passwords, hardcoded secret assignments, national ID and mobile numbers, private IP ranges, internal hostnames. Scanning happens <strong>after</strong> your redactions are applied — scanning before would report findings you had already handled, and only scanning after can tell you the redactions were enough.</span>
+  </p>
+  <p>
+    <span data-zh>两件它<em>不</em>做的事：命中的内容永远不会被完整打印，报告只给掩码片段和长度——一份会泄露它检出的密钥的报告，比没有报告更糟。以及它努力不喊狼来了：<code>example.com</code>、<code>127.0.0.1</code>、<code>&#36;{DB_PASSWORD}</code>、<code>&lt;your-token-here&gt;</code> 是占位符，不算命中。一个被人学会忽略的检查已经不是检查了。</span>
+    <span data-en>Two things it will <em>not</em> do. It never prints a finding in full — a report that leaks the secret it detected is worse than no report, so findings carry a masked excerpt and a length. And it works hard not to cry wolf: <code>example.com</code>, <code>127.0.0.1</code>, <code>&#36;{DB_PASSWORD}</code>, and <code>&lt;your-token-here&gt;</code> are placeholders, not findings. A check people learn to ignore has stopped being a check.</span>
+  </p>
+
+  <h3><span data-zh>边界，先说清楚</span><span data-en>Limits, stated up front</span></h3>
+  <ul class="plain small">
+    <li><span data-zh>接口剥离只支持 TypeScript 和 JavaScript。别的语言拒绝处理，不做「半处理」。</span><span data-en>Interface stripping is TypeScript and JavaScript only. Other languages are refused rather than half-handled.</span></li>
+    <li><span data-zh><code>include</code> 里的东西按字节原样发布——那是你的判断不是工具的判断，扫描器是那些文件唯一的兜底。</span><span data-en><code>include</code> publishes verbatim, so anything listed there is your judgement, not sparepack's. The scanner is the only safety net on those files.</span></li>
+    <li><span data-zh>产出是一组文件，不是一个能跑的工程。没有 <code>package.json</code>、没有 tsconfig，接单者拿到手得先补几行才能 <code>npm test</code>。</span><span data-en>A pack is a set of files, not a runnable project. No <code>package.json</code>, no tsconfig — a worker has to add a few lines before <code>npm test</code> works.</span></li>
+    <li><span data-zh>包里的路径镜像你仓库里的路径，不能重映射。从 monorepo 根目录打包会得到 <code>packages/api/src/...</code>，通常不是你要的。</span><span data-en>Paths in a pack mirror paths in your repo, with no remapping. Packing from a monorepo root gives you <code>packages/api/src/...</code>, which is usually not what you want.</span></li>
+    <li><span data-zh>清单不随包走。你终端上看到的清单会列出被丢弃的内部函数名、以及哪些 redact 规则命中了——这两样恰好精确描述了这个包存在的目的是隐藏什么，所以写进包里的 <code>MANIFEST.json</code> 只保留 <code>verify</code> 需要的路径、类型和大小。</span><span data-en>The manifest does not travel. What you see in your terminal lists dropped internal functions by name and which redact patterns fired — both describe precisely what the pack exists to withhold — so the <code>MANIFEST.json</code> inside the pack keeps only what <code>verify</code> needs: paths, kinds, sizes.</span></li>
+  </ul>
+
   <div class="callout">
     <div class="label"><span data-zh>诚实说一句</span><span data-en>Worth saying plainly</span></div>
     <p class="small">
-      <span data-zh>扫描器是词法级的，它找的是模式不是含义。写在注释里的业务规则、你忘了加进脱敏列表的内部代号——这些抓不到。真正决定什么东西被公开的，是那一步人工复核；工具里其余所有东西，存在的意义只是让那次复核成为可能。</span>
-      <span data-en>The scanner is lexical: it finds patterns, not meaning. A business rule written in a comment, an internal codename you forgot to redact — those get through. The manifest review is what actually decides what gets published; everything else exists to make that review possible.</span>
+      <span data-zh>扫描器是词法级的，它找的是模式不是含义。写在注释里的业务规则、看着像普通单词的客户名、你忘了加进脱敏列表的内部代号——这些抓不到。真正决定什么东西被公开的，是那一步人工复核；工具里其余所有东西，存在的意义只是让那次复核成为可能。</span>
+      <span data-en>The scanner is lexical: it finds patterns, not meaning. A business rule written in a comment, a customer name that looks like an ordinary word, an internal codename you forgot to redact — those get through. The manifest review is what actually decides what gets published; everything else exists to make that review possible.</span>
     </p>
   </div>
 </section>
 
-<section>
+<section id="tiers">
   <h2><span data-zh>隐私分级</span><span data-en>Privacy tiers</span></h2>
   <p><span data-zh>每个任务必须声明一级，按接单者能看到多少排序。</span><span data-en>Every task declares exactly one, ordered by how much the worker sees.</span></p>
   <div class="tiers">
@@ -356,14 +500,18 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
       <b><span data-zh>信任圈</span><span data-en>Trust circle</span></b>
       <span data-zh>NDA 下的完整访问，只给已有关系的人。</span><span data-en>Full access under NDA, for people you already know.</span></div></div>
   </div>
+  <p class="small muted">
+    <span data-zh>不知道选哪级：任务能用「一组接口 + 一组测试」描述清楚的，选 P1，这也是绝大多数情况。需要接单者在真实项目里跑起来、点一点才能干的，选 P2。P0 和 P3 是两头的特例。目前只有 P0 和 P1 有实际跑过的记录，P2 有流程文档但还没有真实案例，P3 尚未实现。</span>
+    <span data-en>Not sure which: if the task can be described by a set of interfaces plus a set of tests, use P1 — that covers most of them. If the worker needs the real project running to do the work at all, use P2. P0 and P3 are the two extremes. Only P0 and P1 have actually been run so far; P2 has a documented process but no real case yet, and P3 is not implemented.</span>
+  </p>
 </section>
 
-<section>
+<section id="board">
   <h2><span data-zh>任务板怎么跑</span><span data-en>How the board works</span></h2>
   <p><span data-zh>没有网站，没有服务器，全在 GitHub 上。</span><span data-en>No website, no server. The whole thing runs on GitHub.</span></p>
   <ol class="steps">
-    <li><span data-zh><b>发单</b>——开一个 issue，你的积分进托管。</span><span data-en><b>Post</b> — open an issue. Your points go into escrow.</span></li>
-    <li><span data-zh><b>接单</b>——评论 <code>/claim</code>。同时 2 个、每周 5 个。真人手工干活本来就是这个量级，机器刷单会立刻撞墙。</span><span data-en><b>Claim</b> — comment <code>/claim</code>. Two concurrent, five per week. That is the throughput of a person working by hand; a bot hits the wall immediately.</span></li>
+    <li><span data-zh><b>发单</b>——开一个 issue，你的积分进托管。余额不够就发不出去。</span><span data-en><b>Post</b> — open an issue. Your points go into escrow. Insufficient balance, no task.</span></li>
+    <li><span data-zh><b>接单</b>——评论 <code>/claim</code>，等 issue 被指派给你<em>之后</em>再动手。同时 2 个、每周 5 个。真人手工干活本来就是这个量级，机器刷单会立刻撞墙。</span><span data-en><b>Claim</b> — comment <code>/claim</code>, and start only <em>after</em> the issue is assigned to you. Two concurrent, five per week: that is the throughput of a person working by hand, and a bot hits the wall immediately.</span></li>
     <li><span data-zh><b>交付</b>——往<em>你的</em>仓库提 PR，附上「这些改动我亲自审阅过、没共享任何凭证」的声明。</span><span data-en><b>Deliver</b> — a PR against <em>your</em> repo, with an attestation that they reviewed it themselves and shared no credentials.</span></li>
     <li><span data-zh><b>结算</b>——你合并，账本记一笔，双方档案更新。</span><span data-en><b>Settle</b> — you merge, the ledger records it, both profiles update.</span></li>
   </ol>
@@ -372,22 +520,145 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
     <span data-en>This repository never hosts your code. Task metadata, the ledger, and reputation live here; the code moves directly between the two parties' own repositories.</span>
   </p>
 
+  <h3><span data-zh>定价：只看复杂度</span><span data-en>Pricing: complexity only</span></h3>
+  <p class="tight">
+    <span data-zh>耗额度的任务分三档，<strong>没有 XL</strong>——再大的必须拆。大额单任务是纠纷的来源，而一个做了一半的 XL 对双方都一文不值。</span>
+    <span data-en>Quota-consuming tasks come in three sizes and <strong>there is no XL</strong> — anything bigger gets split. Large single tasks are where disputes come from, and a half-finished XL is worthless to both sides.</span>
+  </p>
+  <div class="tw">
+  <table class="num">
+    <tr><th><span data-zh>档位</span><span data-en>Tier</span></th><th><span data-zh>范围</span><span data-en>Scope</span></th><th>TP</th></tr>
+    <tr><td>S</td><td><span data-zh>≤30 分钟。修 bug、补文档、补一个缺的测试。</span><span data-en>≤30 min. Bug fix, doc, missing test.</span></td><td>10</td></tr>
+    <tr><td>M</td><td><span data-zh>30 分钟–2 小时。一个函数、一个组件或一个接口。</span><span data-en>30 min–2 h. One function, component, or endpoint.</span></td><td>30</td></tr>
+    <tr><td>L</td><td><span data-zh>2 小时–半天。一个完整特性带测试。</span><span data-en>2 h–half a day. A complete feature with tests.</span></td><td>80</td></tr>
+  </table>
+  </div>
+  <p class="tight">
+    <span data-zh>还有一类<strong>不烧额度</strong>的任务，专门为了让「这周额度用完了」不等于「没法参与」：</span>
+    <span data-en>A second class of task <strong>burns no quota at all</strong>, so that being out of quota does not mean being locked out:</span>
+  </p>
+  <div class="tw">
+  <table class="num">
+    <tr><th><span data-zh>类型</span><span data-en>Type</span></th><th><span data-zh>做什么</span><span data-en>Scope</span></th><th>TP</th></tr>
+    <tr><td><code>review</code></td><td><span data-zh>审别人的交付 PR</span><span data-en>Review someone's delivery PR</span></td><td>5</td></tr>
+    <tr><td><code>redact-audit</code></td><td><span data-zh>在一个 sparepack 产出公开之前当第二双眼睛</span><span data-en>Second pair of eyes on a sparepack output before it goes public</span></td><td>10</td></tr>
+    <tr><td><code>spec</code></td><td><span data-zh>替别人写那组定义任务的验收测试</span><span data-en>Write the acceptance tests that define someone's task</span></td><td>15</td></tr>
+    <tr><td><code>arbitrate</code></td><td><span data-zh>担任争议仲裁（需 5 次以上交付）</span><span data-en>Serve as arbitrator on a dispute (5+ deliveries required)</span></td><td>10</td></tr>
+  </table>
+  </div>
+
   <h3><span data-zh>积分是闸门，不是胡萝卜</span><span data-en>Points are a gate, not a carrot</span></h3>
   <p>
-    <span data-zh>积分（TP）只能通过完成任务获得、通过发布任务消耗。<strong>不可转让、不可交易、不能提现</strong>，没有二级市场，以后也不会有。它的职责是防止有人只发不接，仅此而已。</span>
-    <span data-en>Task Points are earned by delivering and spent by requesting. <strong>Not transferable, not tradable, no cash value</strong> — there is no secondary market and there will not be one. Their job is to stop people posting forever without ever delivering. That is all.</span>
+    <span data-zh>积分（TP）只能通过完成任务获得、通过发布任务消耗。<strong>不可转让、不可交易、不能提现</strong>，不过期，没有二级市场，以后也不会有。它的职责是防止有人只发不接，仅此而已。新人 50 TP，刚好够发一个 M 任务。</span>
+    <span data-en>Task Points are earned by delivering and spent by requesting. <strong>Not transferable, not tradable, no cash value</strong>, no expiry, no secondary market — and there will not be one. Their job is to stop people posting forever without ever delivering. That is all. New members start with 50 TP, enough for one M task.</span>
   </p>
   <p>
     <span data-zh>真正的回报是<strong>一份可验证的公开交付记录</strong>：每次交付都是一个合并进别人真实仓库的 PR。这在找工作或谈外包时是有分量的，刷题记录换不来。</span>
     <span data-en>The actual reward is <strong>a verifiable public track record</strong>: every delivery is a merged PR in someone's real repository. That is worth something when you are job hunting, in a way a LeetCode streak is not.</span>
   </p>
+
+  <h3><span data-zh>出了争议怎么办</span><span data-en>When it goes wrong</span></h3>
+  <p class="small">
+    <span data-zh>任一方打 <code>dispute</code> 标签，由一位和本任务无关、有 5 次以上交付的仲裁者接手，目标 3 天出结论：<strong>判交付</strong>（积分给接单者，事后加需求的发布者不退款）、<strong>判退款</strong>、或者<strong>判拆分</strong>并写明理由。每一次裁决都带着仲裁者的 handle 和理由链接写进账本，公开，可上诉一次给另一位仲裁者。</span>
+    <span data-en>Either party applies the <code>dispute</code> label. An arbitrator with 5+ deliveries and no involvement in the task picks it up, targeting three days: <strong>deliver</strong> (points to the worker; a requester who moves the goalposts afterwards gets no refund), <strong>refund</strong>, or <strong>split</strong> with the reasoning recorded. Every ruling is written into the ledger with the arbitrator's handle and a link to their reasoning. Public, and appealable once to a different arbitrator.</span>
+  </p>
   <p class="small muted">
-    <span data-zh>这周额度用完了？照样能赚分：帮人 review 交付、复核别人的脱敏产出、代写验收测试、当争议仲裁——都不烧 AI 额度。</span>
-    <span data-en>Out of quota this week? You can still earn: reviewing deliveries, auditing someone's redaction output, writing acceptance tests, arbitrating disputes. None of it burns AI quota.</span>
+    <span data-zh><strong>验收标准就是合同。</strong>接单时 issue 上没写的东西，不构成拒收的理由。这条对双方都成立，也是为什么任务模板把验收标准设成必填。</span>
+    <span data-en><strong>Acceptance criteria are the contract.</strong> If it was not in the issue when the task was claimed, it is not grounds for refusing delivery. This cuts both ways, and it is why the task template makes acceptance criteria mandatory.</span>
   </p>
 </section>
 
-<section>
+<section id="ledger">
+  <h2><span data-zh>账本：不用信我，自己算</span><span data-en>The ledger: don't trust me, recompute it</span></h2>
+  <p>
+    <span data-zh>任何积分系统最后都会碰到同一个问题：凭什么信运营方报的余额。这里的答案是把余额变成一个<strong>可复现的计算结果</strong>而不是一句声明。</span>
+    <span data-en>Every points system eventually runs into the same question: why believe the operator's numbers. The answer here is to make balances <strong>a reproducible computation</strong> rather than an assertion.</span>
+  </p>
+<pre><span class="c">$ git clone https://github.com/mxx1111/spare-cycles &amp;&amp; cd spare-cycles</span>
+$ node ledger/verify.mjs
+
+ledger.jsonl — 13 entries
+
+Balances:
+  ghzhost                     40 TP
+  manav8498                   10 TP
+  mxx1111                      0 TP
+
+  in balances                 50 TP
+  in escrow                    0 TP
+  total issued                50 TP
+
+<span class="g">All invariants hold.</span></pre>
+  <p>
+    <span data-zh><code>ledger.jsonl</code> 只追加：不改行、不删行、不调顺序，更正一律是新增的冲正条目。<code>balances.json</code> 是派生产物，两者对不上时以重算为准。校验器检查九条不变量，其中余额非负和托管非负是<strong>逐条增量检查</strong>的——中途变成负数、后面又补回来的历史一样判无效。</span>
+    <span data-en><code>ledger.jsonl</code> is append-only: never edit a line, never delete one, never reorder. Corrections are new compensating entries. <code>balances.json</code> is derived output, and if the two disagree the recomputation wins. The verifier checks nine invariants, and the two non-negativity ones are checked <strong>incrementally</strong> — a history that dips negative in the middle and recovers is still invalid.</span>
+  </p>
+
+  <h3><span data-zh>红线 5 长什么样</span><span data-en>What red line 5 looks like</span></h3>
+  <p class="tight">
+    <span data-zh>「积分不可转让」这句承诺，在代码里就是这六行——外加一个「不在这六个里面就是篡改」的判断：</span>
+    <span data-en>The promise that points cannot be transferred is these six lines, plus a rule that anything outside them is tampering:</span>
+  </p>
+<pre><span class="c">// ledger/verify.mjs</span>
+const TYPES = {
+  <span class="k">grant</span>, <span class="k">escrow</span>, <span class="k">settle</span>, <span class="k">refund</span>, <span class="k">split</span>, <span class="k">adjust</span>
+}
+<span class="c">// <span data-zh>没有 transfer。用户之间的转账在这个 schema 里不存在，</span><span data-en>No transfer. User-to-user movement does not exist in</span></span>
+<span class="c">// <span data-zh>不是「不允许」，是根本无法表达。</span><span data-en>this schema — not disallowed, inexpressible.</span></span>
+<span class="r">fail(where, `unknown transaction type "transfer"`
+  + ` — COMPLIANCE.md red line 5`)</span></pre>
+
+  <div class="callout">
+    <div class="label"><span data-zh>这条不变量是被撞出来的</span><span data-en>One invariant exists because it broke</span></div>
+    <p class="small">
+      <span data-zh>时间戳必须是<strong>观测到的</strong>事件时间——issue 的 <code>createdAt</code>、PR 的 <code>mergedAt</code>——而不是敲一个看起来合理的值。这条写成规则是因为它被违反过：最早的八条记录填的是 12:00、12:01……14:00 这种编造值，单调递增检查全过（编造的递增数字确实在递增），直到一个真实时间戳排在编造值后面，结算直接死锁。现在校验器会拒绝任何未来时间——那是「这个值是敲出来的」唯一能被机器识别的证据。整个更正过程写在账本文件头里。</span>
+      <span data-en>A timestamp must be an <strong>observed</strong> event time — the issue's <code>createdAt</code>, the PR's <code>mergedAt</code> — not a plausible-looking value someone typed. This is a rule because it was broken: the first eight entries were filled in with tidy invented times, 12:00, 12:01, … 14:00. Monotonicity passed, because invented increasing numbers do increase. It only surfaced when a real timestamp arrived behind an invented one and settlement deadlocked. The verifier now rejects any future-dated entry — the one machine-detectable proof that a time was typed rather than observed. The correction is documented in the ledger's header.</span>
+    </p>
+  </div>
+
+  <p class="small muted">
+    <span data-zh>一条局限值得直说：这套检查抓得到过期的快照和被编辑的历史，但抓不到在同一个提交里既改历史又重新生成快照的人。能抓住那种情况的是「只追加」这条规则和一双读 diff 的眼睛。CI 收窄了缺口，没有把它堵死。</span>
+    <span data-en>One limit worth stating plainly: this catches a stale snapshot and an edited history, but not someone who edits the history <em>and</em> regenerates the snapshot in the same commit. What catches that is the append-only rule and a human reading the diff. CI narrows the gap; it does not close it.</span>
+  </p>
+</section>
+
+<section id="alternatives">
+  <h2><span data-zh>为什么不用现成的东西</span><span data-en>Why not just use what exists</span></h2>
+  <p>
+    <span data-zh>这四类东西都存在，也都比这个项目成熟。它们不合用的原因各不相同，而且都是结构性的，不是「做得还不够好」。</span>
+    <span data-en>All four of these exist and all four are more mature than this project. Each is a bad fit for a different, structural reason — not for want of polish.</span>
+  </p>
+  <div class="tw">
+  <table>
+    <tr>
+      <th><span data-zh>方案</span><span data-en>Option</span></th>
+      <th><span data-zh>为什么不合用</span><span data-en>Why it does not fit</span></th>
+    </tr>
+    <tr>
+      <td><span data-zh>现金悬赏平台</span><span data-en>Cash bounty platforms</span></td>
+      <td><span data-zh>结构上要求 issue 和仓库是公开的。你的私有业务代码从第一步就进不去，钱多钱少无关。</span><span data-en>Structurally require the issue and the repository to be public. Your private business code cannot get past step one, regardless of the money involved.</span></td>
+    </tr>
+    <tr>
+      <td><span data-zh>外包 / 自由职业平台</span><span data-en>Freelance marketplaces</span></td>
+      <td><span data-zh>能处理私有代码，代价是签 NDA 加交出完整仓库访问权。对一个半小时的活来说，走流程的摩擦比活本身还大。</span><span data-en>They handle private code, at the price of an NDA plus full repository access. For a ninety-minute task the process costs more than the task.</span></td>
+    </tr>
+    <tr>
+      <td><span data-zh>额度池 / 账号合租</span><span data-en>Quota pools and shared seats</span></td>
+      <td><span data-zh>共享凭证或代为路由请求，明确违反条款。这正是本项目开头第一段就砍掉的方案。</span><span data-en>Sharing credentials or routing requests on someone's behalf is explicitly prohibited. This is the design this project discarded in its first paragraph.</span></td>
+    </tr>
+    <tr>
+      <td><span data-zh>时间银行 / 通用互助</span><span data-en>Time banks and generic mutual aid</span></td>
+      <td><span data-zh>换的是小时数，完全不碰「我没法让你看我的代码」这个具体障碍——而那恰好是唯一真正卡住人的地方。</span><span data-en>They exchange hours and never touch the specific obstacle — "I cannot let you see my code" — which happens to be the only thing actually blocking people.</span></td>
+    </tr>
+  </table>
+  </div>
+  <p class="small muted">
+    <span data-zh>所以剩下的空位很窄：私有代码 + 小任务 + 不涉及现金 + 不共享访问权。这个项目就想填这一格，别的不碰。</span>
+    <span data-en>Which leaves a narrow gap: private code, small tasks, no cash, no shared access. That single cell is what this project is trying to fill, and nothing else.</span>
+  </p>
+</section>
+
+<section id="status">
   <h2><span data-zh>现在到哪一步了</span><span data-en>Where this actually is</span></h2>
   <p>
     <span data-zh>项目处在 Phase 0：手工跑几个真任务，看看到底有没有人来。第一批任务发布 3 小时内收到第一个 PR。</span>
@@ -395,13 +666,14 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
   </p>
   <div class="stat-row">
     <div class="stat"><span class="n">2h48m</span><div class="k"><span data-zh>首个交付</span><span data-en>to first delivery</span></div></div>
-    <div class="stat"><span class="n">9 / 9</span><div class="k"><span data-zh>验收测试通过</span><span data-en>acceptance tests passed</span></div></div>
+    <div class="stat"><span class="n">5 / 5</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div></div>
     <div class="stat"><span class="n">0</span><div class="k"><span data-zh>业务代码外泄</span><span data-en>lines of business logic exposed</span></div></div>
   </div>
   <p>
-    <span data-zh>那个 P1 任务的交付者<strong>只看得到接口和测试</strong>，看不到任何业务代码，实现是正确的，九个验收测试全过，而且没有削弱任何一条测试。这是整个项目最关键的假设，它成立了。</span>
-    <span data-en>The person who delivered that P1 task <strong>could see only interfaces and tests</strong> — no business code at all — and got it right: nine acceptance tests passing, none of them weakened. That was the project's load-bearing assumption, and it held.</span>
+    <span data-zh>五个任务全部完成，两位交付者，零返工。其中那个 P1 任务的交付者<strong>只看得到接口和测试</strong>，看不到任何业务代码，实现是正确的，九个验收测试全过，而且没有削弱任何一条测试。这是整个项目最关键的假设，它成立了。</span>
+    <span data-en>All five tasks delivered, by two people, with no rework. On the P1 task the person <strong>could see only interfaces and tests</strong> — no business code at all — and got it right: nine acceptance tests passing, none of them weakened. That was the project's load-bearing assumption, and it held.</span>
   </p>
+
   <div class="callout">
     <div class="label"><span data-zh>也别只讲好听的</span><span data-en>The other half</span></div>
     <p class="small">
@@ -409,10 +681,94 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
       <span data-en>The same batch immediately attracted bounty-farming bots: one account "claimed" four tasks in twenty-four seconds and never opened a single PR; another pasted the same pitch five times; someone quoted a price in dollars. The rate limits and the ban on unattended claiming exist for exactly this, and they are about to earn their keep.</span>
     </p>
   </div>
+
+  <h3><span data-zh>第一天就赔掉了一个人的一晚上</span><span data-en>Day one cost someone an evening</span></h3>
+  <p class="small">
+    <span data-zh>板子上线第一天，7 号任务收到了两份各自独立、各自正确的实现，相隔两小时，九个验收测试都全过。只能付一个人。第二个人的一晚上白花了——而且他没有任何办法提前知道，因为 issue 上没有任何东西写着「有人在做」。那是板子的错，不是他的错。</span>
+    <span data-en>On the board's first day, task #7 received two independent, independently correct implementations two hours apart. Both passed all nine acceptance tests. Only one could be paid. The second person's evening was wasted — and there was no way for them to know, because nothing on the issue said it was taken. That was the board's fault, not theirs.</span>
+  </p>
+  <p class="small">
+    <span data-zh>所以接单现在是一个<strong>前置条件</strong>而不是一句声明：<code>/claim</code> 是申请，指派才是答复，<strong>issue 分配给你之前不要动手</strong>。这不是官僚流程，这是唯一挡在贡献者和白干之间的东西。</span>
+    <span data-en>So claiming is now a <strong>precondition</strong>, not an announcement: <code>/claim</code> is a request, the assignment is the answer, and <strong>you do not start until the issue is assigned to you</strong>. That is not bureaucracy — it is the only thing standing between a contributor and wasted work.</span>
+  </p>
+
   <p class="small muted">
     <span data-zh>sparepack 本身是 0.1.x，测试很密（80 个，含一个塞满凭证和客户数据的端到端仓库），但真实用户还很少。开发过程中被自己的测试抓到过两个真实泄露，第三个存在的概率不低。请把人工复核当成保护你的那一层，而不是工具。</span>
     <span data-en>sparepack is 0.1.x. The test suite is thorough — 80 tests, including an end-to-end run against a repo seeded with credentials and customer records — but few people have used it on their own code yet. Two real leaks were caught by those tests during development; the odds of a third are not small. Treat the manifest review as the thing keeping you safe, not the tool.</span>
   </p>
+</section>
+
+<section id="faq">
+  <h2><span data-zh>常见问题</span><span data-en>Questions</span></h2>
+  <div class="faq">
+    <details>
+      <summary><span data-zh>我只想用 sparepack，不想加入什么社区，行吗？</span><span data-en>Can I just use sparepack and skip the community?</span></summary>
+      <div class="a"><p>
+        <span data-zh>行。sparepack 是独立的 npm 包，MIT 协议，跟任务板零耦合，也不会往任何地方上传东西。想让人帮你改代码又不想交出整个代码库——这件事本身不需要一个社区。</span>
+        <span data-en>Yes. sparepack is a standalone npm package under MIT, with no coupling to the board and no network calls. You do not need a community to want help with your code without handing over the codebase.</span>
+      </p></div>
+    </details>
+    <details>
+      <summary><span data-zh>积分能换钱吗？</span><span data-en>Can points be converted to money?</span></summary>
+      <div class="a"><p>
+        <span data-zh>不能，而且永远不会能。不可转让、不可交易、不可提现、不是证券也不是货币。一旦可转让，立刻会出现拿现金买积分的灰市，这个项目的性质当场变成无监管的劳务撮合。所以它不是一句政策，是账本 schema 里压根没有那个交易类型。</span>
+        <span data-en>No, and never. Not transferable, not tradable, not redeemable, not a security and not a currency. The moment they were transferable a grey market in points would appear and this would become unregulated labour brokerage. So it is not a policy — the transaction type simply does not exist in the ledger schema.</span>
+      </p></div>
+    </details>
+    <details>
+      <summary><span data-zh>我这周额度用完了，还能参与吗？</span><span data-en>I'm out of quota this week. Can I still take part?</span></summary>
+      <div class="a"><p>
+        <span data-zh>能，而且这是刻意设计的。审别人的交付、复核别人的脱敏产出、替别人写验收测试、当争议仲裁——四类任务都不烧任何 AI 额度，照样赚分。原始设计里有个死锁：最缺积分的人恰恰是最重度、最没余力赚积分的人，这条通道就是为了解开它。</span>
+        <span data-en>Yes, and that is deliberate. Reviewing deliveries, auditing someone's redaction output, writing acceptance tests, arbitrating disputes — four task types that burn no AI quota and still earn points. The original design had a deadlock: the people who most need points are the heavy users least able to earn them. This channel exists to break it.</span>
+      </p></div>
+    </details>
+    <details>
+      <summary><span data-zh>交付的代码归谁？</span><span data-en>Who owns the delivered code?</span></summary>
+      <div class="a"><p>
+        <span data-zh>PR 提在<em>你自己的</em>仓库里，按你仓库的 license 走。这个项目从头到尾不碰、不托管、不中转你的代码——任务元数据、账本和信誉记录在公开仓库里，代码只在你和接单者的仓库之间流转。这一条同时也大幅削减了本项目的法律责任面。</span>
+        <span data-en>The PR lands in <em>your</em> repository under your repository's licence. This project never touches, hosts, or relays your code — task metadata, the ledger, and reputation live in the public repo; the code moves only between your repo and the worker's. That also keeps this project's liability surface small.</span>
+      </p></div>
+    </details>
+    <details>
+      <summary><span data-zh>这算不算违反 Anthropic 条款？</span><span data-en>Does this violate Anthropic's terms?</span></summary>
+      <div class="a">
+        <p><span data-zh>交付的是<strong>产出</strong>不是<strong>访问权</strong>。用自己的订阅为别人干活并交付成果，就是普通的自由职业，消费者条款并不禁止商业用途。界线就在这里，五条红线全部围绕它。</span>
+        <span data-en>What is delivered is <strong>output</strong>, not <strong>access</strong>. Using your own subscription to do work for someone and handing over the result is ordinary freelancing; the Consumer Terms do not prohibit commercial use. That is the line, and all five red lines sit around it.</span></p>
+        <p><span data-zh>但这是一个由开发者而非律师运营的项目。你的账号由你自己负责，用雇主提供的 seat 的话先问过雇主——很多企业协议有额外限制。</span>
+        <span data-en>But this is run by developers, not lawyers. You are responsible for your own account, and if you are on an employer-provided seat, ask them first — many enterprise agreements add their own restrictions.</span></p>
+      </div>
+    </details>
+    <details>
+      <summary><span data-zh>我怎么知道扫描器没漏东西？</span><span data-en>How do I know the scanner didn't miss something?</span></summary>
+      <div class="a"><p>
+        <span data-zh>你不知道，我也不知道。词法扫描抓不到含义。所以工具的设计不是「扫干净了就发」，而是<strong>写盘前强制你看一遍完整文件清单并逐字敲确认</strong>。工具的作用是把那次复核变得可能——列清楚发了哪些文件、多大、哪些函数被丢弃了——而不是替你复核。另外 <code>sparepack verify</code> 会从磁盘完全重新推导一遍，不信任任何清单，因为和被检查对象共享假设的检查等于没检查。</span>
+        <span data-en>You do not, and neither do I. Lexical scanning cannot catch meaning. So the tool is not built around "scan clean, then ship" — it is built around <strong>forcing you to read the full file list and type a confirmation before anything is written</strong>. Its job is to make that review possible (what shipped, how big, which functions were dropped), not to do it for you. Separately, <code>sparepack verify</code> re-derives everything from disk and trusts no manifest, because a check that shares assumptions with the thing it checks catches nothing.</span>
+      </p></div>
+    </details>
+    <details>
+      <summary><span data-zh>能不能让 OpenClaw 这类 agent 挂个定时任务，自动接单赚积分？</span><span data-en>Can I have an OpenClaw-style agent poll the board and auto-claim tasks?</span></summary>
+      <div class="a">
+        <p><span data-zh>不能，这正是红线 4：由活人读任务、决定接、干活、在提交前亲自审阅。让 agent <strong>盯着任务流提醒你</strong>完全可以——「有个 M 档的 TypeScript 任务，要看看吗」是个很好的 cron 任务。但 <code>/claim</code> 那一下必须是你按的，交付前那一遍必须是你看的。</span>
+        <span data-en>No — that is red line 4 verbatim: a human reads the task, decides to take it, does the work, and reviews it before submitting. Having an agent <strong>watch the feed and notify you</strong> is completely fine — "there's an M-tier TypeScript task, want a look?" is a great cron job. But the <code>/claim</code> has to be yours, and so does the review before delivery.</span></p>
+        <p><span data-zh>机制上也刷不动：<code>/claim</code> 只是申请，维护者指派了才算数，速率限制是同时 2 个、每周 5 个。被识别出的无人值守接单，按治理规则是接单作废加停用 30 天。想让 agent 全自动接活赚钱的话，有专为 agent 设计的悬赏市场，那是另一个前提下的另一种东西——这个板子是给人用的。</span>
+        <span data-en>Mechanically it does not work either: <code>/claim</code> is a request, only the maintainer's assignment counts, and the limits are two concurrent, five a week. Unattended claiming, when identified, voids the claims and suspends the account for 30 days. If you want an agent earning autonomously, bounty markets built for agents exist — that is a different thing built on the opposite premise. This board is for people.</span></p>
+      </div>
+    </details>
+    <details>
+      <summary><span data-zh>为什么不建个网站，非要用 GitHub issue？</span><span data-en>Why GitHub issues instead of a real web app?</span></summary>
+      <div class="a"><p>
+        <span data-zh>建了网站就得托管代码、存数据、扛住对应的责任面和攻击面，而这些恰好都是这个项目最不想承担的。跑在 GitHub 上意味着：账本是一个公开仓库里的文本文件，谁都能 clone 下来自己重算；身份是真实的 GitHub 账号，注册天数和公开贡献可查；信誉是别人仓库里真实合并的 PR，不是我发的一枚徽章。这些性质是买不来的。</span>
+        <span data-en>A web app would mean hosting code, storing data, and carrying the liability and attack surface that comes with both — precisely what this project wants to avoid. Running on GitHub means the ledger is a text file in a public repo anyone can clone and recompute; identity is a real GitHub account with a checkable age and contribution history; and reputation is merged PRs in other people's repositories rather than a badge I issued. None of that can be bought.</span>
+      </p></div>
+    </details>
+    <details>
+      <summary><span data-zh>现在到底有多少人？</span><span data-en>How many people are actually here?</span></summary>
+      <div class="a"><p>
+        <span data-zh>很少。5 个任务、2 位交付者、总共发出去 50 TP。Phase 0 存在的意义就是先回答「到底有没有人来」这个问题，而不是假装已经有社区了。如果你现在来，你会是很前面的那几个人之一，好处和坏处都很明显。</span>
+        <span data-en>Very few. Five tasks, two people delivering, fifty points issued in total. Phase 0 exists to answer whether anyone shows up at all, not to pretend a community already exists. If you turn up now you are one of the first handful, with everything good and bad that implies.</span>
+      </p></div>
+    </details>
+  </div>
 </section>
 
 <section>
@@ -422,6 +778,19 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
     <span data-en>sparepack does not depend on the task board. You do not need a community to want help with your code without handing over the codebase.</span>
   </p>
 <pre>npx sparepack init</pre>
+  <p class="small tight">
+    <span data-zh><strong>用 AI agent 开发？</strong>把下面这句原样粘给它：</span>
+    <span data-en><strong>Working through an AI agent?</strong> Paste it this line, verbatim:</span>
+  </p>
+<pre style="white-space: pre-wrap; overflow-wrap: break-word">Read https://github.com/mxx1111/sparepack#readme, then run `npx sparepack init` in my repo and help me fill sparepack.yaml. The final `publish` confirmation at pack time is mine to type, never yours.</pre>
+  <p class="small muted">
+    <span data-zh>最后半句不是客气话。写盘前的人工确认是这个工具的安全模型本身，一个替你敲确认的 agent 等于把它整个拆掉。</span>
+    <span data-en>The last clause is not politeness. The pre-write confirmation is the tool's entire safety model, and an agent that types it for you has dismantled it.</span>
+  </p>
+  <p class="small muted">
+    <span data-zh>需要 Node 22 或更新版本，没有别的前置条件。如果你发现它处理错了某个场景，<a href="https://github.com/mxx1111/sparepack/issues">开个 issue</a>——现阶段这是对这个项目最有用的一件事。</span>
+    <span data-en>Node 22 or newer, no other prerequisites. If you find a case it gets wrong, <a href="https://github.com/mxx1111/sparepack/issues">open an issue</a> — right now that is the single most useful thing you can do with it.</span>
+  </p>
   <div class="cta" style="margin-top:28px">
     <a class="btn" href="https://github.com/mxx1111/sparepack">sparepack on GitHub</a>
     <a class="btn ghost" href="https://github.com/mxx1111/spare-cycles/issues/new?template=onboarding.yml">
@@ -440,6 +809,7 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
       <a href="https://github.com/mxx1111/spare-cycles/blob/main/COMPLIANCE.md"><span data-zh>合规红线</span><span data-en>Compliance</span></a>
       <a href="https://github.com/mxx1111/spare-cycles/blob/main/PRIVACY-TIERS.md"><span data-zh>隐私分级</span><span data-en>Privacy tiers</span></a>
       <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE.md"><span data-zh>治理</span><span data-en>Governance</span></a>
+      <a href="https://github.com/mxx1111/spare-cycles/blob/main/ledger/README.md"><span data-zh>账本</span><span data-en>Ledger</span></a>
     </div>
     <p class="small" style="margin:0">
       <span data-zh>MIT · 由开发者而非律师运营的社区项目。内容反映 2026 年 8 月对相关条款的善意理解，条款会变，你的账号由你自己负责。</span>
