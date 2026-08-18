@@ -49,9 +49,15 @@ test('render-stats --check succeeds when current and fails when drifted', () => 
     copyFileSync(join(ROOT, 'ledger', 'verify.mjs'), join(dir, 'ledger', 'verify.mjs'))
     copyFileSync(RENDER_SCRIPT, join(dir, 'scripts', 'render-stats.mjs'))
 
-    // Write a drifted docs/index.html
+    // Write a drifted docs/index.html.
+    // Derive the drift from what is actually rendered — a hardcoded "17 entries" here went
+    // stale the moment the ledger grew to 18, and then this test silently asserted nothing:
+    // the replace matched no text, the HTML was never drifted, --check correctly passed, and
+    // the only failure was the assertion that it should have failed. A test for a generator
+    // must not itself hardcode the generated value.
     const goodHtml = readFileSync(join(ROOT, 'docs', 'index.html'), 'utf8')
-    const staleHtml = goodHtml.replace('17 entries', '999 entries')
+    const staleHtml = goodHtml.replace(/(\d+) entries/, '999 entries')
+    assert.notEqual(staleHtml, goodHtml, 'fixture must actually differ, or this test proves nothing')
     writeFileSync(join(dir, 'docs', 'index.html'), staleHtml)
 
     assert.throws(
