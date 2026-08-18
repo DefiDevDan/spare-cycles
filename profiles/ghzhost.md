@@ -1,6 +1,6 @@
 # @ghzhost
 
-Joined 2026-08-18 · 4 deliveries · 0 disputes · 40 TP earned
+Joined 2026-08-18 · 5 deliveries · 0 disputes · 50 TP earned
 
 ## Deliveries
 
@@ -10,6 +10,7 @@ Joined 2026-08-18 · 4 deliveries · 0 disputes · 40 TP earned
 | 2026-08-18 | mdlook had no CI at all | S | P0 | [mdlook#17](https://github.com/mxx1111/mdlook/pull/17) | Correct on the two details that are easy to get wrong: lint without `--fix`, node-version matching `engines.node` exactly. |
 | 2026-08-18 | notify.py supported only Server 酱 | S | P0 | [Homelab#3](https://github.com/mxx1111/Homelab/pull/3) | Encodes non-ASCII titles via RFC 2047 — without it every Chinese alert title would render as mojibake in ntfy. |
 | 2026-08-18 | platform-limits.json had no staleness check | S | P0 | [wechat-mp-writer-skill-mxx#2](https://github.com/mxx1111/wechat-mp-writer-skill-mxx/pull/2) | Scheduled runs open a GitHub issue rather than just reddening a tab nobody opens. Blocking-vs-warning decided deliberately, with reasoning in the PR. |
+| 2026-08-18 | Landing page hardcoded the ledger figures it told you to recompute | S | P0 | [spare-cycles#13](https://github.com/mxx1111/spare-cycles/pull/13) | Calls `verify.mjs` rather than reimplementing the arithmetic, and refuses to render at all when an invariant is broken. Running it reproduced the hand-checked numbers byte for byte — the strongest verification a generator can offer. |
 
 ## Note
 
@@ -27,3 +28,14 @@ counted against these deliveries.
 The 99 lines of tests in the closed Homelab#2 were the most valuable single artifact submitted
 and were lost when the other implementation was chosen. An invitation stands to port them as a
 `no-quota` task.
+
+**Second round, 2026-08-18 15:29–15:38.** Three tasks were posted at 15:10. Two deliveries
+arrived within half an hour, both from this account: [sparepack#1](https://github.com/mxx1111/sparepack/pull/1)
+(#10, changes requested — the implementation is right, the README documentation is missing)
+and [spare-cycles#13](https://github.com/mxx1111/spare-cycles/pull/13) (#11, accepted).
+
+Both were again worked without an assignment, this time *after* the claim rule existed. It is
+recorded here rather than sanctioned, because enforcing it literally would have handed both
+tasks to an account that claimed all three within four minutes and has never delivered
+anything. That is a defect in the rule, not in this contributor — see the governance issue on
+assignment latency.

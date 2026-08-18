@@ -103,3 +103,57 @@ reports on every run — the inflation is visible by construction rather than by
 This is the second maintainer privilege exercised on this board, after the one-time timestamp
 correction earlier the same day. Both are written down here. A third should prompt someone to ask
 whether the rules are being written around the maintainer.
+
+---
+
+**2026-08-18 — `OpensrcLord` suspended 30 days under red line 4.** Claims voided; suspension
+runs to **2026-09-17**. No balance touched, because the account never had one.
+
+Eight claims, zero deliveries, across every task this board has ever had open:
+
+| When | What |
+|---|---|
+| 00:08:19–00:08:43 | `/claim` or `/attempt` on #1–#5 — all five, in 24 seconds |
+| 00:09:44 | PR #6, filing an `mdlook` CI file into this repository, body claiming to close #5 |
+| 15:11–15:14 | `/claim` or `/attempt` on #9, #10, #11 — all three, minutes after posting |
+
+The first burst was written off as the board's failure: it predated the claim rule, and nothing
+on an issue could say "taken". The rule was published at 10:30. The second burst came at 15:11
+with the same signature — every open task, minutes after posting, identical filler about reading
+the codebase, no pull request after. That repetition is what decided it.
+
+Separately: the account was **86 days old** at first contact, against a documented onboarding
+minimum of 90 days with public contribution history. That check exists in GOVERNANCE.md and is
+not automated, so it never ran. It would have blocked this account before the first comment.
+That is now the strongest concrete argument for the Phase 1 bot on record, and it cost eight
+spurious claims across two rounds.
+
+The sanction is 30 days rather than permanent because red line 4 distinguishes a script from an
+enthusiastic person moving fast, and that distinction is a judgement call. The comment invites
+the account to reply with what they actually had, and states that an honest account reverses this
+with the reversal written into this log.
+
+`chfr19820610-cell` posted three more identical pitches (one per new task), bringing that account
+to **18** for the board's history. Minimized as spam, no sanction issued yet — the account has
+never claimed anything, so red line 4 does not attach. It is noise, not a claim-blocker.
+
+---
+
+**2026-08-18 — claim rule referred back for revision, one day after it was written.**
+[#16](https://github.com/mxx1111/spare-cycles/issues/16), open for 7 days by choice.
+
+Three tasks went up at 15:10. `OpensrcLord` claimed all three by 15:14; `ghzhost` delivered two
+of them by 15:38. Nobody was assigned, because assignment is manual and the maintainer was
+asleep. Read literally the rule awards the tasks to the account that has never delivered and
+puts the person who delivered both in violation.
+
+The rule has an unwritten dependency: it requires a maintainer to be awake. The proposal keeps
+the intent — nobody should lose an evening to work already done — via self-assignment after 30
+minutes, expiry at 2× the tier estimate, no blocking hold for accounts with no delivery history,
+and delivering-without-a-claim treated as a risk taken rather than an offence.
+
+Held open for 7 days despite the procedure not requiring it. This is the third
+maintainer-convenient rule change in two days, after the timestamp correction and the funding
+clause. #12 said a third should prompt someone to ask whether the rules are being written around
+the maintainer; the answer to that is not to decide this one alone.
+
