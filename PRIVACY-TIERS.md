@@ -50,9 +50,15 @@ Built-in patterns for API key prefixes across major providers, Chinese national 
 
 ### The human gate
 
-Automated redaction is not trustworthy enough to be the last step. After packing, `sparepack` prints the complete file manifest with byte counts and a per-file summary of what was kept, emptied, or substituted, and waits for you to type a confirmation before anything is written to disk.
+Automated redaction is not trustworthy enough to be the last step. After packing, `sparepack` prints the complete file manifest with byte counts and a per-file summary of what was kept, emptied, or substituted, and waits for you to type `publish` before anything is written to disk.
 
 If you would not be comfortable posting the manifest publicly, do not confirm.
+
+The scanner is lexical: it finds patterns, not meaning. A business rule spelled out in a comment, an internal codename you forgot to add to `redact`, a customer name that looks like an ordinary word — none of those get caught. **The manifest review is the part that actually decides what gets published.** Everything else in the tool exists to make that review possible.
+
+### Status: implemented
+
+`sparepack` lives in [`packages/sparepack`](packages/sparepack) and works today. See its [README](packages/sparepack/README.md) for the full configuration reference.
 
 ### When P1 does not fit
 
@@ -165,9 +171,15 @@ redact:     [ { pattern: "acme-corp|ACME", replace: "example-org" } ]
 
 ### 人工闸门
 
-自动脱敏没可靠到能当最后一道关。打包完成后，`sparepack` 会打印完整的文件清单（带字节数）和逐文件的处理摘要（保留了什么、清空了什么、替换了什么），然后等你敲确认，在此之前不写任何东西到盘上。
+自动脱敏没可靠到能当最后一道关。打包完成后，`sparepack` 会打印完整的文件清单（带字节数）和逐文件的处理摘要（保留了什么、清空了什么、替换了什么），然后等你敲 `publish`，在此之前不写任何东西到盘上。
 
 判断标准很简单：这份清单你敢不敢公开贴出来。不敢就别确认。
+
+扫描器是词法级的，它找的是模式，不是含义。写在注释里的业务规则、你忘了加进 `redact` 的内部代号、一个看起来像普通词的客户名——这些都抓不到。**真正决定什么东西被公开的，是那一步人工复核。** 工具里其余所有东西，存在的意义只是让那次复核成为可能。
+
+### 状态：已实现
+
+`sparepack` 在 [`packages/sparepack`](packages/sparepack)，现在就能用。完整配置说明见它的 [README](packages/sparepack/README.md)。
 
 ### P1 搞不定的情况
 
