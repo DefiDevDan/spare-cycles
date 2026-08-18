@@ -4,6 +4,11 @@
   "description": "Turn a slice of a private repository into a shareable task pack: contracts and tests, no business logic",
   "type": "module",
   "license": "MIT",
+  "author": "Sean Mu (@mxx1111)",
+  "homepage": "https://github.com/mxx1111/spare-cycles/tree/main/packages/sparepack",
+  "bugs": {
+    "url": "https://github.com/mxx1111/spare-cycles/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mxx1111/spare-cycles.git",
