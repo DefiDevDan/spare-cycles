@@ -157,3 +157,30 @@ maintainer-convenient rule change in two days, after the timestamp correction an
 clause. #12 said a third should prompt someone to ask whether the rules are being written around
 the maintainer; the answer to that is not to decide this one alone.
 
+---
+
+**2026-08-19 — claim expiry folded into [#16](https://github.com/mxx1111/spare-cycles/issues/16)
+rather than opened separately.** Claiming and expiry are two halves of one mechanism; deciding
+them apart produces rules that contradict each other.
+
+Four changes proposed to the expiry half:
+
+1. **The board sets the deadline, not the requester.** The requester already sets it by choosing
+   the tier, which *is* a time estimate. A separate field would let a task contradict its own
+   tier. The market reason matters more: workers are the scarce side here — one account has
+   posted every task, two people have ever delivered — and a requester-set deadline is a
+   pressure lever aimed at the scarce side. Requesters may extend, never shorten, by comment.
+2. **Flat 24 / 48 / 72 h instead of 2× the tier estimate.** 2× gives an S task a one-hour
+   window, which punishes not sharing the maintainer's timezone rather than punishing idleness.
+3. **Measure silence, not elapsed time.** Any substantive comment or draft PR resets the clock;
+   a warning fires at 75% instead of a silent repossession. The signal worth detecting is
+   holding a task while saying nothing, and the cost of saying something is near zero.
+4. **New: a delivery PR with no commit and no author reply for 7 days releases the claim.** None
+   of the three existing timers covers a worker who opens a half-finished PR and disappears —
+   delivery stops the claim clock and the task is pinned by a PR nobody will finish.
+
+All of it is unenforced, like every other timer, until the Phase 1 bot exists. Recorded as a
+specification for that bot rather than as a rule taking effect on merge — the last rule written
+quickly required a maintainer to be awake, and that went unnoticed until it awarded two tasks to
+an account with no deliveries.
+
