@@ -184,3 +184,98 @@ specification for that bot rather than as a rule taking effect on merge — the 
 quickly required a maintainer to be awake, and that went unnoticed until it awarded two tasks to
 an account with no deliveries.
 
+
+---
+
+**2026-08-24 — Phase 0 closed. The board is not a two-sided market, and the rules now say so.**
+
+[#8](https://github.com/mxx1111/spare-cycles/issues/8) asked contributors two things on
+2026-08-18: why they claimed, and whether they had anything they wanted done. Six days, zero
+replies. [PHASE-0.md](PHASE-0.md) is closed on that basis.
+
+The first two questions came back better than expected — claims inside 30 minutes, five
+settlements with no rewrites, one of them P1. The third came back empty, and empty is an
+answer: eight tasks posted, all eight from one account, 60 TP sitting with people who have
+never spent any of it. Supply exists. There is no demand side.
+
+Three changes follow.
+
+**1. The funding clause no longer expires on someone else's behaviour.** It read "until three
+separate accounts have each posted at least one task". With no demand side that condition may
+never fire, and an expiry that never fires is a permanent grant with better manners — the exact
+thing [#12](https://github.com/mxx1111/spare-cycles/issues/12) asked people to watch me for. It
+now ends two ways: three requesters appearing (kept, because it should end the clause
+instantly if it ever happens), or a missed 90-day review. The review is the operative one: the
+clause must be re-argued in this log on a schedule, in public, where anyone can contradict it.
+First review due **2026-11-22**. Miss it and no further issuance is legitimate.
+
+**2. Second and third issuances under the clause: 50 TP each — decided, not yet written.**
+They will fund a 20 TP top-up on [#10](https://github.com/mxx1111/spare-cycles/issues/10) and an
+80 TP escrow on the audit task described below, taking `total_issued` from 100 to 200 and
+returning the maintainer balance to 0.
+
+Two issuances rather than one because the clause caps a single issuance at 50 TP and forbids
+issuing while an unescrowed balance is held — the first 50 must be fully escrowed before the
+second is drawn.
+
+**They are not in `ledger.jsonl` as this entry is written, and that is deliberate.** A `settle`
+entry now has to name a pull request that exists, references the task, and has actually been
+merged — `npm run ledger:prs` checks it against the GitHub API. The settlements these issuances
+pay for are on pull requests that are not merged yet. Writing the entries first would mean
+either a ledger that fails its own verification, or timestamps invented ahead of the events they
+claim to record, which is exactly the mistake that required the seq 1–8 correction on
+2026-08-18.
+
+So the decision is logged here and the entries follow the merges. Anyone reading this before
+they land will see `total_issued` at 100 and a discrepancy with this paragraph; that
+discrepancy is the honest state of things and it closes when the merges happen.
+
+The audit is priced at the tier-L rate of 80 TP from the table in this document. It is not
+discounted for having been posted late; charging a contributor for a defect in the board's own
+process would be the wrong way round.
+
+**3. Claim automation stops being a discussion.** The specification in
+[#16](https://github.com/mxx1111/spare-cycles/issues/16) gets built rather than debated further.
+The argument for it is no longer theoretical — see the cost accounting below.
+
+---
+
+**2026-08-24 — five days of maintainer silence, and what it cost other people.**
+
+Last commit before this entry: 2026-08-19. In the gap, four contributors' pull requests sat
+unanswered.
+
+| PR | Waiting | What it was |
+|---|---|---|
+| [spare-cycles#17](https://github.com/mxx1111/spare-cycles/pull/17) | 5 days | Unsolicited security audit, 18 files, six findings, no escrow behind it |
+| [sparepack#1](https://github.com/mxx1111/sparepack/pull/1) | 5 days | Mergeable since 18:46 on 2026-08-18, when the requested docs commit landed |
+| [sparepack#2](https://github.com/mxx1111/sparepack/pull/2) | 5 days | Correct implementation, 6.5 hours behind #1 |
+| [sparepack#3](https://github.com/mxx1111/sparepack/pull/3) | 5 days | Latest of three, and the only one with a better design than the winner |
+
+Three implementations of one task, two of them wasted. The cause is on record from
+2026-08-18: claiming required the maintainer to assign by hand, and nothing on an open task
+told a reader it was already being worked. Both wasted contributors saw an open, unclaimed task
+and were right to act on it.
+
+Compensation is 10 TP each through the `split` route, charged against #10 rather than issued to
+them directly — a compensation that bypassed task escrow would be a maintainer paying people
+out of thin air, which is the thing the escrow rule exists to prevent. The top-up in change 2
+above is what makes #10 solvent enough to pay all three.
+
+`@xusuxiang8`'s `remap: [{from, to}]` is the general form of the `stripPrefix` that won. The
+follow-up task generalising it credits that PR and is held for its author for seven days
+before opening to the board.
+
+**The audit is a harder case and was handled by admitting the gap rather than working around
+it.** Nothing escrowed it and no `no-quota` route fits — `review`, `redact-audit`, `spec` and
+`arbitrate` all attach to a task somebody else has posted, and none of them describes an
+unprompted full-repository security audit. A task is being opened retroactively and escrowed at 80
+TP so the settlement has something real to reference. Posting a task after its delivery is
+irregular; doing it in the open is better than inventing a route that does not exist, and the
+gap itself is now a known defect in the `no-quota` list.
+
+One finding in that audit was not a bug. P2 was documented as "the code never touches the
+worker's disk", which was false — the Codespace runs under the worker's account, and branch
+protection restricts writes, not reads or copies. The tier is now documented as temporary
+trusted access. **An over-promise in a privacy tier is worse than not offering the tier**, and
+that text was written knowing how Codespaces work.
