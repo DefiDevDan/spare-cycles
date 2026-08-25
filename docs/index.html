@@ -387,8 +387,8 @@
       <b><span data-zh>账本谁都能从零重算</span><span data-en>Anyone can recompute the ledger</span></b>
       <p>
         <!-- stats:summary -->
-<span data-zh>18 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
-<span data-en>18 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
+<span data-zh>27 条记录、9 条不变量、一条命令。余额不是维护者说了算，是从完整历史重放出来的。快照和重算对不上，以重算为准。</span>
+<span data-en>27 entries, 9 invariants, one command. Balances are not asserted by the maintainer, they are replayed from the full history. If the snapshot disagrees with the replay, the replay wins.</span>
 <!-- /stats:summary -->
       </p>
     </div>
@@ -613,16 +613,17 @@ npx sparepack verify   <span class="c"># <span data-zh>从磁盘重新推导，�
 <pre><span class="c">$ git clone https://github.com/mxx1111/spare-cycles &amp;&amp; cd spare-cycles</span>
 $ node ledger/verify.mjs
 
-ledger.jsonl — 18 entries
+ledger.jsonl — 27 entries
 
 Balances:
-  ghzhost                     50 TP
+  ghzhost                     60 TP
   manav8498                   10 TP
+  rafaio1                     10 TP
   mxx1111                      0 TP
   ———————————————————————— —————
-  in balances                 60 TP
-  in escrow                   40 TP
-  total issued               100 TP
+  in balances                 80 TP
+  in escrow                  140 TP
+  total issued               220 TP
 
 <span class="g">All invariants hold.</span></pre>
 <!-- /stats:terminal -->
@@ -704,7 +705,7 @@ const TYPES = {
   <div class="stat-row">
     <div class="stat"><span class="n">2h48m</span><div class="k"><span data-zh>首个交付</span><span data-en>to first delivery</span></div></div>
     <div class="stat"><!-- stats:settled -->
-<span class="n">6</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div>
+<span class="n">7</span><div class="k"><span data-zh>任务已结算</span><span data-en>tasks settled</span></div>
 <!-- /stats:settled --></div></div>
     <div class="stat"><span class="n">0</span><div class="k"><span data-zh>业务代码外泄</span><span data-en>lines of business logic exposed</span></div></div>
   </div>
@@ -883,7 +884,7 @@ const TYPES = {
         <td><span class="pos first">1</span></td>
         <td><a href="https://github.com/ghzhost">@ghzhost</a></td>
         <td>#5 · #4 · #3 · #7</td>
-        <td>50</td>
+        <td>60</td>
         <td><span data-zh><span class="tag delivered">交付 ×4</span>另有一次白干（#2，任务撤销后才交付）</span><span data-en><span class="tag delivered">delivered ×4</span>plus one wasted run (#2, after withdrawal)</span></td>
       </tr>
       <tr>
@@ -895,6 +896,13 @@ const TYPES = {
       </tr>
       <tr>
         <td><span class="pos">3</span></td>
+        <td><a href="https://github.com/rafaio1">@rafaio1</a></td>
+        <td>—</td>
+        <td>10</td>
+        <td><span data-zh><span class="tag delivered">参与者</span></span><span data-en><span class="tag delivered">participant</span></span></td>
+      </tr>
+      <tr>
+        <td><span class="pos">4</span></td>
         <td><a href="https://github.com/mxx1111">@mxx1111</a></td>
         <td><span data-zh>发布者 · 5 单</span><span data-en>poster · 5 tasks</span></td>
         <td>0</td>
@@ -940,8 +948,8 @@ const TYPES = {
     </div>
     <!-- stats:totals -->
 <p class="note">
-      <span data-zh>合计：发放 100 TP，结算 60 TP，托管中 40（2 个开放任务）。账本 18 条记录，9 条不变量全过。发放额从 50 涨到 100，是维护者为给板子供资发放的一笔——<a href="https://github.com/mxx1111/spare-cycles/issues/12">规则改动</a>与<a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">全过程</a>都公开记录，那笔钱当天全部进了托管，维护者余额仍是 0。</span>
-      <span data-en>Total: 100 TP issued, 60 TP settled, 40 in escrow across 2 open tasks. 18 ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
+      <span data-zh>合计：发放 220 TP，结算 70 TP，托管中 140（3 个开放任务）。账本 27 条记录，9 条不变量全过。发放额从 50 涨到 100，是维护者为给板子供资发放的一笔——<a href="https://github.com/mxx1111/spare-cycles/issues/12">规则改动</a>与<a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">全过程</a>都公开记录，那笔钱当天全部进了托管，维护者余额仍是 0。</span>
+      <span data-en>Total: 220 TP issued, 70 TP settled, 140 in escrow across 3 open tasks. 27 ledger entries, all nine invariants holding. Issuance rose from 50 to 100 because the maintainer funded the board — the <a href="https://github.com/mxx1111/spare-cycles/issues/12">rule change</a> and <a href="https://github.com/mxx1111/spare-cycles/blob/main/GOVERNANCE-LOG.md">the whole of it</a> are on the record, all of it reached escrow the same day, and the maintainer balance is still zero.</span>
     </p>
 <!-- /stats:totals -->
   </div>
