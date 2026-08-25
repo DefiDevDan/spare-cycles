@@ -1,12 +1,12 @@
 # @xusuxiang8
 
-Joined 2026-08-19 · 0 accepted deliveries · 0 disputes · 10 TP (pending settlement)
+Joined 2026-08-19 · 0 accepted deliveries · 0 disputes · 10 TP (unsettleable — account gone)
 
 ## Deliveries
 
 | Date | Task | Tier | Privacy | PR | Requester's note |
 |---|---|---|---|---|---|
-| 2026-08-19 | sparepack destination path remapping | S | P0 | [sparepack#3](https://github.com/mxx1111/sparepack/pull/3) (closed) | Closed as the latest of three submissions and the only one without tests. Contains the best design in the set: `remap: [{from, to}]` generalises the accepted `stripPrefix`, and the PR states the root cause more precisely than the task issue did. |
+| 2026-08-19 | sparepack destination path remapping | S | P0 | `mxx1111/sparepack#3` (gone with the account) | Closed as the latest of three submissions and the only one without tests. Contains the best design in the set: `remap: [{from, to}]` generalises the accepted `stripPrefix`, and the PR states the root cause more precisely than the task issue did. |
 
 ## Note
 
@@ -26,6 +26,15 @@ contributor for seven days before opening to the board.
 
 ---
 
-**Pending.** The 10 TP above is decided but not yet in `ledger.jsonl`. A `settle` entry must
-name a merged pull request and is verified against the GitHub API by `npm run ledger:prs`, so
-the entry follows the merge rather than preceding it. This note comes off when it lands.
+**Account no longer exists.** As of 2026-08-25 `github.com/xusuxiang8` returns 404 and the pull
+request went with it — deleted or deactivated, and which one is not this board's business.
+
+The 10 TP owed under `split` cannot be settled. There is no balance to settle it into, and
+inventing one would put a number in the ledger that corresponds to nobody. It is recorded here
+as owed and unpayable rather than removed.
+
+**The profile stays.** The design in that pull request is in
+[#19](https://github.com/mxx1111/spare-cycles/issues/19) with attribution, and it is the reason
+`remap` exists as a task at all. A record that quietly drops the people who leave is not a
+record — it is a record of whoever happens to still be around, which is a different and much
+less useful thing.

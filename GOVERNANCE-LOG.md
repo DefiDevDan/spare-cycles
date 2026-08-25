@@ -279,3 +279,33 @@ worker's disk", which was false — the Codespace runs under the worker's accoun
 protection restricts writes, not reads or copies. The tier is now documented as temporary
 trusted access. **An over-promise in a privacy tier is worse than not offering the tier**, and
 that text was written knowing how Codespaces work.
+
+---
+
+**2026-08-25 — a contributor's account no longer exists, and what that does to the ledger.**
+
+`@xusuxiang8` submitted the `remap` design in `mxx1111/sparepack#3` on 2026-08-19. Six days
+later the account returns 404 and the pull request is gone with it. Deleted or deactivated;
+which one is not this board's business.
+
+Three things follow, recorded because the alternative is a ledger that quietly rounds off the
+people who leave.
+
+**The 10 TP owed under `split` cannot be paid.** There is no balance to pay it into. It is
+written into [the profile](profiles/xusuxiang8.md) as owed and unpayable rather than deleted.
+Inventing a settlement would put a number in the ledger corresponding to nobody, which is worse
+than an acknowledged debt that cannot be discharged.
+
+**The escrow arithmetic changes.** [#10](https://github.com/mxx1111/spare-cycles/issues/10) was
+to be topped up by 20 TP to cover three payouts. It now needs 10 — @ghzhost's settlement and
+@rafaio1's compensation. The top-up is reduced rather than the surplus being left sitting in an
+escrow nobody can claim.
+
+**The attribution stands.** The design is credited in
+[#19](https://github.com/mxx1111/spare-cycles/issues/19) with a dead link left in place, because
+that is where it came from. The seven-day hold that issue opened with has been removed — holding
+a task for an account that cannot claim it is theatre.
+
+There is a rule gap here and it is being left open rather than patched in a hurry: nothing in
+GOVERNANCE.md says what happens to escrowed or owed TP when an account disappears. It has now
+happened once. If it happens twice, it needs a rule rather than a log entry.
