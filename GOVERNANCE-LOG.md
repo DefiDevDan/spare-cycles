@@ -315,7 +315,7 @@ happened once. If it happens twice, it needs a rule rather than a log entry.
 **2026-08-25 — a clause for debts owed to accounts that no longer exist.**
 
 Added [When an account disappears](GOVERNANCE.md#when-an-account-disappears) to GOVERNANCE.md.
-Proposed in [#21](https://github.com/mxx1111/spare-cycles/issues/21).
+Proposed in [#22](https://github.com/mxx1111/spare-cycles/issues/22).
 
 The prompt was the obvious question about the 10 TP owed to `@xusuxiang8`: why not just issue
 more TP and hand it over. The answer is that it does not work in any of the three ways that
