@@ -309,3 +309,35 @@ a task for an account that cannot claim it is theatre.
 There is a rule gap here and it is being left open rather than patched in a hurry: nothing in
 GOVERNANCE.md says what happens to escrowed or owed TP when an account disappears. It has now
 happened once. If it happens twice, it needs a rule rather than a log entry.
+
+---
+
+**2026-08-25 — a clause for debts owed to accounts that no longer exist.**
+
+Added [When an account disappears](GOVERNANCE.md#when-an-account-disappears) to GOVERNANCE.md.
+Proposed in [#21](https://github.com/mxx1111/spare-cycles/issues/21).
+
+The prompt was the obvious question about the 10 TP owed to `@xusuxiang8`: why not just issue
+more TP and hand it over. The answer is that it does not work in any of the three ways that
+matter — there is no account to receive it, TP cannot be transferred or cashed out so the amount
+is irrelevant to someone who cannot log in, and **issuing outside the funding clause for a
+sympathetic reason is how a clause that was tightened this morning starts coming apart.** The
+funding clause was rewritten today to expire on a 90-day review precisely so that it stops
+depending on the maintainer's judgement about special cases. Making an exception for a good
+reason on the same day would have answered #12's question about whether the rules are written
+around the maintainer, in the wrong direction.
+
+So the debt is not paid out of thin air. It is written down, it does not expire, and it becomes
+payable if the person can prove they are the person. The burden of proof is on the claimant, the
+judgement is public and appealable, and paying it uses the ordinary escrow route rather than a
+new issuance power.
+
+**The clause is probably unenforceable in this specific case and says so.** When the account
+went, the pull request went with it, and so did the commits, the email addresses and the
+signatures — the evidence needed to claim the debt was destroyed by the same event that created
+it. Writing a clause that admits it may never be used is better than either paying a stranger
+who says the right name, or deleting the line and pretending the work never happened.
+
+This is the fifth maintainer-convenient decision in eight days by the count [#12](https://github.com/mxx1111/spare-cycles/issues/12)
+asked for — except this one costs the maintainer rather than helps him, which is worth noting
+without treating it as proof of anything.

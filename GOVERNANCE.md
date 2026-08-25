@@ -119,6 +119,44 @@ Every ruling is written into `ledger.jsonl` with the arbitrator's handle and a l
 
 ---
 
+## When an account disappears
+
+An account that no longer exists cannot hold a balance. TP owed to it cannot be settled — there
+is nothing to settle into — and writing the settlement anyway would put a number in the ledger
+corresponding to nobody.
+
+**The debt is recorded, not erased.** It stays in the contributor's profile marked owed and
+unpayable, in GOVERNANCE-LOG.md with what caused it, and in any task issue that credits their
+work. A record that quietly drops the people who leave is a record of whoever happens to still
+be here, which is a different and much less useful thing.
+
+**If they come back, they get paid.** Same amount, at the tier rate that applied when the work
+was delivered. No interest, no goodwill top-up, no discount for the delay — the debt is the
+debt.
+
+Conditions:
+
+- **The burden of proof is on the claimant.** Control of the email address on the original
+  commits, a signature verifiable against them, or details of the delivery that were never
+  public. A new account asserting it is the same person is not evidence.
+- **The judgement is the maintainer's and is written into GOVERNANCE-LOG.md**, accepted or
+  refused, with the reasoning. A refusal can go to `arbitrate` like any other dispute.
+- **No time limit.** A debt does not expire because the person took a year to come back. The
+  outstanding list is reviewed alongside the funding clause every 90 days.
+- **This creates no new issuance power.** Paying it uses the ordinary route — escrow on a task,
+  then `split` or `settle`. If the original escrow has already been cleared, it is topped up
+  first, under the funding clause and its existing limits.
+
+**This clause covers exactly one situation: an account that no longer exists.** It is not a
+general power to pay people outside the escrow system, and it is not a precedent for other
+sympathetic cases. Extending it needs its own rule change.
+
+**It may well never be used.** When an account goes, its pull requests usually go with it, and
+the commits, the email addresses and the signatures go too — the evidence someone would need to
+prove they are the person owed is often destroyed by the same event that created the debt. That
+is an honest limitation, not a reason to skip writing the clause. An acknowledged debt that
+cannot be discharged is still better than a quiet deletion.
+
 ## Sanctions
 
 | Behavior | Consequence |
@@ -306,6 +344,36 @@ Open an issue with the `governance` label. Changes affecting TP pricing or red l
 **验收标准就是合同。** 接单时 issue 里没写的东西，不能作为拒收的理由。这一条对双方同样成立，也正是任务模板把验收标准设为必填的原因。
 
 ---
+
+## 账号消失时
+
+一个不存在的账号无法持有余额。欠它的 TP 结算不出去——没有可以结算进去的地方——
+硬写一笔，等于在账本里放一个不对应任何人的数字。
+
+**这笔债记下来，不抹掉。** 它留在贡献者的 profile 里，标为「已欠、不可支付」；
+留在 GOVERNANCE-LOG.md 里，写明起因；也留在任何署了他名字的任务 issue 里。
+一份悄悄把离开的人删掉的记录，记的只是「碰巧还在的人」，那是另一种东西，而且没什么用。
+
+**人回来了，就付。** 原额，按交付当时的档位价目。不计息、不加补偿、也不因为拖久了打折。
+欠多少就是多少。
+
+条件：
+
+- **举证责任在声称者。** 能证明控制原提交所用的邮箱、能提供可对原提交验证的签名、
+  或说得出交付中从未公开过的细节。一个新账号自称是同一个人，不算证据。
+- **判断由维护者做出，并写进 GOVERNANCE-LOG.md**，认或不认都写，连同理由。
+  不认可以像其他争议一样走 `arbitrate`。
+- **不设时效。** 一笔债不会因为本人过了一年才回来就消失。未偿清单在每 90 天复审
+  供资条款时一并复核。
+- **本条不产生任何新的发放权。** 支付走常规路径：任务托管，然后 `split` 或 `settle`。
+  原托管如果已经结清，先按供资条款及其现有上限补足。
+
+**本条只覆盖一种情况：账号不存在了。** 它不是一项绕开托管体系给人付钱的通用权力，
+也不构成其他"情有可原"情形的先例。要扩展它，得单独走一次改规则程序。
+
+**它很可能永远用不上。** 账号消失时，PR 通常一起消失，提交、邮箱、签名也跟着没了——
+一个人要证明自己就是那个债主所需要的证据，往往被制造这笔债的同一件事销毁了。
+这是个诚实的局限，不是不写这条款的理由。一笔承认了却还不上的债，仍然好过悄悄删掉。
 
 ## 处分
 
